@@ -14,9 +14,8 @@ module Polycon
                 Dir.exist?(Helpers.path<<"/#{name}")
             end
 
-            def update_professional(new_name)
-                File.rename(f, Helpers.path + "/" + filename.capitalize + File.extname(f))
-                p 'el nombre fue cambiado con exito'
+            def self.rename_professional(old_name, new_name)
+                File.rename(Helpers.path << "/#{old_name}" , Helpers.path << "/#{new_name}")
             end
 
             def self.list_professionals()
@@ -28,30 +27,19 @@ module Polycon
                 end
             end
 
-            # def delete_professional(name)
-            #     if prof = self.search_professional(name)
-            #         if self.has_appointments?
-            #             puts 'error debido a que el profesional #{name} posee turnos asignados'
-            #         else
-            #             @@professionals.reject{|prof| prof.name==name}
-            #             puts 'profesional eliminado con exito'
-            #         end
-            #     else
-            #         puts 'el profesional indicado no se encuentra registrado'
-            #     end
-            # end
-            
-            # def search_professional(name)
-            #     @@professional.detect {|prof| prof.name==name}
-            # end
+            def self.delete_professional(name)
+                begin
+                    Dir.delete(Helpers.path << "/#{name}") #"Dir.delete" produce an error if the file is not empty
+                rescue SystemCallError
+                    warn "ERROR: El directorio \"#{name}\", no se encuentra vacio, por lo que la eliminacion se vio interrumpida"
+                else
+                    puts "El directorio \"#{name}\" fue eliminado con exito"
+                end
+            end
 
-            # def has_appointments?()
-            #     self.appointments.empty?
-            # end
-
-            # def to_s()
-            #     self.name
-            # end
+            def has_appointments?()
+                self.appointments.empty?
+            end
         end
     end
 end
