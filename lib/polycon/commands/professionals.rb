@@ -12,8 +12,17 @@ module Polycon
         ]
 
         def call(name:, **)
-          Polycon::Models::Professional.create_professional(name)
-          #warn "TODO: Implementar creación de un o una profesional con nombre '#{name}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          Polycon::Helpers.polycon_exist?           #verify if ".polycon" folder exists
+          if not Polycon::Helpers.validate_string(name) #step 1 validate the string
+            warn "el nombre ingresado no es un nombre valido"
+          elsif Polycon::Models::Professional.exist?(name) #step 2 verify if exist
+            warn "el nombre ingresado pertenece a un profesional ya existente en el sistema"
+            
+          else #if it's valid, then create the professional an then the folder with that name
+            newProfessional = Polycon::Models::Professional.new(name)
+            newProfessional.create_folder
+            puts "El directorio de #{name} fue creado con exito"
+          end
         end
       end
 
@@ -28,7 +37,12 @@ module Polycon
         ]
 
         def call(name: nil)
-          Polycon::Models::Professional.delete_professional(name)
+          Polycon::Helpers.polycon_exist?           #verify if ".polycon" folder exists
+          if not Polycon::Models::Professional.exist?(name) #verify if the directory exist
+            warn "el nombre ingresado no pertenece a ningun profesional existente en el sistema"
+          else 
+            Polycon::Models::Professional.delete_professional(name)
+          end
           #warn "TODO: Implementar borrado de la o el profesional con nombre '#{name}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
         end
       end
@@ -41,8 +55,8 @@ module Polycon
         ]
 
         def call(*)
-          Polycon::Models::Professional.list_professionals(name)
-          #warn "TODO: Implementar listado de profesionales.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          Polycon::Helpers.polycon_exist?           #verify if ".polycon" folder exists
+          Polycon::Models::Professional.list_professionals()
         end
       end
 
@@ -57,6 +71,8 @@ module Polycon
         ]
 
         def call(old_name:, new_name:, **)
+          Polycon::Helpers.polycon_exist?           #verify if ".polycon" folder exists
+          
           Polycon::Models::Professional.update_professional(name)
           #warn "TODO: Implementar renombrado de profesionales con nombre '#{old_name}' para que pase a llamarse '#{new_name}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
         end
