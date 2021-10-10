@@ -16,7 +16,13 @@ module Polycon
         ]
 
         def call(date:, professional:, name:, surname:, phone:, notes: nil)
-          warn "TODO: Implementar creación de un turno con fecha '#{date}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          aux=Polycon::Helpers.validate('profesional'=>professional, 'nombre'=>name, 'apellido'=>surname)
+          if not aux.empty?
+            warn aux
+          else
+            p 'asd'
+          # warn "TODO: Implementar creación de un turno con fecha '#{date}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          end
         end
       end
 

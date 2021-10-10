@@ -11,8 +11,10 @@ module Polycon
 
         def call(name:, **)
           Polycon::Helpers.polycon_exist?           #verify if ".polycon" folder exists
-          if not Polycon::Helpers.validate_string(name) #step 1 validate the string
-            warn "ERROR: \"#{name}\" no es un nombre valido"
+
+          aux=Polycon::Helpers.validate('nombre'=>name) #step 1 validate the string
+          if not aux.empty?
+            warn aux
           elsif Polycon::Models::Professional.exist?(name) #step 2 verify if exist
             warn "ERROR: El nombre \"#{name}\" pertenece a un profesional ya existente en el sistema"
             
@@ -67,9 +69,11 @@ module Polycon
 
           if not Polycon::Models::Professional.exist?(old_name) #verify if the directory exist
             warn "ERROR: \"#{old_name}\" no pertenece a ningun profesional existente en el sistema"
-          elsif not Polycon::Helpers.validate_string(new_name) #validate the newName
-              warn "ERROR: \"#{new_name}\" no es un nombre valido"
+          end
 
+          aux=Polycon::Helpers.validate('nombre nuevo'=>new_name) #validate the newName
+          if not aux.empty?
+            warn aux
           else 
             Polycon::Models::Professional.rename_professional(old_name, new_name)
             puts "el nombre del directorio \"#{old_name}\" fue cambiado con exito por el nombre \"#{new_name}\""

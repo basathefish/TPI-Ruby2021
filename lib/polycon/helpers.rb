@@ -8,18 +8,25 @@ module Polycon
             end
         end
 
-        def self.validate_string(str)
-            #verifico que el string no este vacio ni posea el caracteres no permitidos "/" y "\"
-            not(str.gsub(" ","").empty? or str.include?("/") or str.include?("\\"))
+        def self.validate(hashs)
+            #verify if the string is empty or if it has not valid characters "/" y "\"
+            a=[]
+            hashs.each do |(key,value)|
+                if (value.gsub(" ","").empty? or value.include?("/") or value.include?("\\"))
+                    a << "ERROR: El parametro \"#{value}\", no es un \"#{key}\" valido"
+                    #in case of a empty value or a value with "/" o "\", it adds the message to the array that goes back to the commands section
+                end
+            end
+            return a
         end
 
         def self.path() #shortcut to polycon file
             Dir.home << "/.polycon"
         end
 
-        def self.format_string(str)
-            str.gsub(" ","_")
-            p str
-        end
+        # def self.format_string(str)
+        #     str.gsub(" ","_")
+        #     p str
+        # end
     end
 end
