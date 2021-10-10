@@ -61,13 +61,21 @@ module Polycon
                 end
             end
 
-            def self.list_appointments(prof)
-                if Dir.children(Helpers.path << "/#{prof}").empty?
+            def self.list_appointments(prof, date=nil)
+                #remuevo la extension ".paf" de los archivos para que solo muestre las fechas
+                aux=Dir.children(Helpers.path << "/#{prof}").each {|file| file.slice! ".paf"}
+                if aux.empty? #tiene citas?
                     puts "No hay citas cargadas para el profesional \"#{prof}\" actualmente"
                 else
-                    puts "El profesional \"#{prof}\" posee las siguientes citas:"
-                    #remuevo la extension ".paf" de los archivos para que solo muestre la fecha
-                    puts Dir.children(Helpers.path << "/#{prof}").each {|file| file.slice! ".paf"}
+                    if not date
+                        puts "El profesional \"#{prof}\" posee las siguientes citas:"
+                        puts aux
+                    else
+                        puts "El profesional \"#{prof}\" posee las siguientes citas el dia #{date}:"
+                        aux.each do |file|
+                            puts file if file[0...10]==date
+                        end
+                    end
                 end
             end
         end
