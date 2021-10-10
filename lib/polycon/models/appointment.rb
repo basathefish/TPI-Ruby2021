@@ -37,6 +37,16 @@ module Polycon
                 end
             end
 
+            def self.rename_file(professional, old_date, new_date)
+                begin
+                File.rename(Helpers.path << "/#{professional}/#{old_date}.paf",Helpers.path << "/#{professional}/#{new_date}.paf")
+                rescue
+                    warn "ERROR: No se ha podido reasignar la cita del profesional #{professional} para el dia #{new_date}, por favor, intente nuevamente"
+                else
+                    warn "Se ha modificado correctamente la cita del profesional #{professional} del dia #{old_date} para el dia #{new_date}"
+                end
+            end
+
             def self.list_appointments(prof)
                 if Dir.children(Helpers.path << "/#{prof}").empty?
                     puts "No hay citas cargadas para el profesional \"#{prof}\" actualmente"

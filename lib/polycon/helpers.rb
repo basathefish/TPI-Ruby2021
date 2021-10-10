@@ -22,6 +22,10 @@ module Polycon
 
         require 'date'
         def self.vali_date?(date)
+            #in case that the parameter of the date has something out the format, like; "2021-09-16 13:00asd"
+            if not date[16].nil?
+                date=date[0..15]
+            end
             DateTime._strptime(date,format="%Y-%m-%d %H-%M")
         end
 

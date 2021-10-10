@@ -106,8 +106,7 @@ module Polycon
         ]
 
         def call(professional:)
-          
-          #warn "TODO: Implementar borrado de todos los turnos de la o el profesional '#{professional}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          warn "TODO: Implementar borrado de todos los turnos de la o el profesional '#{professional}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
         end
       end
 
@@ -145,7 +144,22 @@ module Polycon
         ]
 
         def call(old_date:, new_date:, professional:)
-          warn "TODO: Implementar cambio de fecha de turno con fecha '#{old_date}' para que pase a ser '#{new_date}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          if (not Polycon::Helpers.vali_date?(new_date) or not Polycon::Helpers.vali_date?(old_date)) #validate the date in the case that enter an incorrect date fomat
+            warn "ERROR: Una de las fechas ingresadas no es una fecha valida"
+            warn "Formato de fecha valido: \"AAAA-MM-DD HH-II\"\nEjemplo: \"2021-09-16 13-00\""
+          else
+            Polycon::Helpers.polycon_exist?                                       #verify if ".polycon" folder exists
+            if not Polycon::Models::Professional.exist?(professional)             #verify if the professional folder exists
+              warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
+            elsif not Polycon::Models::Appointment.exist?(professional, old_date) #verify if the old_date file exists
+              warn "ERROR: El profesional \"#{professional}\" no posee una cita en la fecha #{old_date}"
+            elsif Polycon::Models::Appointment.exist?(professional, new_date) #verify if the new_date file exists
+              warn "ERROR: El profesional \"#{professional}\" ya posee una cita en la fecha #{new_date}"
+            else
+              Polycon::Models::Appointment.rename_file(professional, old_date, new_date)
+            end
+          end
+          #warn "TODO: Implementar cambio de fecha de turno con fecha '#{old_date}' para que pase a ser '#{new_date}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
         end
       end
 
