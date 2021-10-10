@@ -30,8 +30,12 @@ module Polycon
               Polycon::Helpers.polycon_exist?                          #verify if ".polycon" folder exists
               if not Polycon::Models::Professional.exist?(professional) #verify if the professional folder exists
                 warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
+              elsif Polycon::Models::Appointment.exist?(professional, date)
+                warn "ERROR: El profesional \"#{professional}\" ya posee una cita en la fecha #{date}"
               else
-                #creo el archivo y le subo la data
+                newAppointment = Polycon::Models::Appointment.new(date, professional, name, surname, phone, notes)
+                newAppointment.create_file
+                puts "El archivo de la cita del profesional #{professional} el dia \"#{date}\" fue creado con exito"
               end
             # warn "TODO: Implementar creación de un turno con fecha '#{date}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
             end

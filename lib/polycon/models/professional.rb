@@ -10,7 +10,7 @@ module Polycon
                 Dir.mkdir(Helpers.path<<"/#{@name}")
             end
 
-            def self.exist?(name) #verify if a file w/ that name exists
+            def self.exist?(name) #verify if a folder w/ that name exists
                 Dir.exist?(Helpers.path<<"/#{name}")
             end
 
