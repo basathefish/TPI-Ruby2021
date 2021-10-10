@@ -12,9 +12,9 @@ module Polycon
         def call(name:, **)
           Polycon::Helpers.polycon_exist?           #verify if ".polycon" folder exists
           if not Polycon::Helpers.validate_string(name) #step 1 validate the string
-            warn "ERROR: \"#{name}\" no pertenece a ningun profesional existente en el sistema"
+            warn "ERROR: \"#{name}\" no es un nombre valido"
           elsif Polycon::Models::Professional.exist?(name) #step 2 verify if exist
-            warn "ERROR: \"#{new_name}\" no es un nombre valido"
+            warn "ERROR: El nombre \"#{name}\" pertenece a un profesional ya existente en el sistema"
             
           else #if it's valid, then create the professional an then the folder with that name
             newProfessional = Polycon::Models::Professional.new(name)

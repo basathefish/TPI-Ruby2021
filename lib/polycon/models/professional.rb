@@ -37,9 +37,9 @@ module Polycon
                 end
             end
 
-            def has_appointments?()
-                self.appointments.empty?
-            end
+            # def has_appointments?()
+            #     self.appointments.empty?
+            # end
         end
     end
 end
