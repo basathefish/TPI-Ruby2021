@@ -12,7 +12,7 @@ module Polycon
         option :notes, required: false, desc: "Additional notes for appointment"
 
         example [
-          '"2021-09-16 13:00" --professional="Alma Estevez" --name=Carlos --surname=Carlosi --phone=2213334567'
+          '"2021-09-16 13-00" --professional="Alma Estevez" --name=Carlos --surname=Carlosi --phone=2213334567'
         ]
 
         def call(date:, professional:, name:, surname:, phone:, notes: nil)
@@ -49,7 +49,7 @@ module Polycon
         option :professional, required: true, desc: 'Full name of the professional'
 
         example [
-          '"2021-09-16 13:00" --professional="Alma Estevez" # Shows information for the appointment with Alma Estevez on the specified date and time'
+          '"2021-09-16 13-00" --professional="Alma Estevez" # Shows information for the appointment with Alma Estevez on the specified date and time'
         ]
 
         def call(date:, professional:)
@@ -76,7 +76,7 @@ module Polycon
         option :professional, required: true, desc: 'Full name of the professional'
 
         example [
-          '"2021-09-16 13:00" --professional="Alma Estevez" # Cancels the appointment with Alma Estevez on the specified date and time'
+          '"2021-09-16 13-00" --professional="Alma Estevez" # Cancels the appointment with Alma Estevez on the specified date and time'
         ]
 
         def call(date:, professional:)
@@ -106,7 +106,12 @@ module Polycon
         ]
 
         def call(professional:)
-          warn "TODO: Implementar borrado de todos los turnos de la o el profesional '#{professional}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          Polycon::Helpers.polycon_exist? #verify if ".polycon" folder exists
+          if not Polycon::Models::Professional.exist?(professional) #verify if the professional folder exists
+            warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
+          else
+            Polycon::Models::Appointment.cancel_all_files(professional) 
+          end
         end
       end
 
@@ -140,7 +145,7 @@ module Polycon
         option :professional, required: true, desc: 'Full name of the professional'
 
         example [
-          '"2021-09-16 13:00" "2021-09-16 14:00" --professional="Alma Estevez" # Reschedules appointment on the first date for professional Alma Estevez to be now on the second date provided'
+          '"2021-09-16 13-00" "2021-09-16 14-00" --professional="Alma Estevez" # Reschedules appointment on the first date for professional Alma Estevez to be now on the second date provided'
         ]
 
         def call(old_date:, new_date:, professional:)
@@ -159,7 +164,6 @@ module Polycon
               Polycon::Models::Appointment.rename_file(professional, old_date, new_date)
             end
           end
-          #warn "TODO: Implementar cambio de fecha de turno con fecha '#{old_date}' para que pase a ser '#{new_date}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
         end
       end
 
@@ -174,9 +178,9 @@ module Polycon
         option :notes, required: false, desc: "Additional notes for appointment"
 
         example [
-          '"2021-09-16 13:00" --professional="Alma Estevez" --name="New name" # Only changes the patient\'s name for the specified appointment. The rest of the information remains unchanged.',
-          '"2021-09-16 13:00" --professional="Alma Estevez" --name="New name" --surname="New surname" # Changes the patient\'s name and surname for the specified appointment. The rest of the information remains unchanged.',
-          '"2021-09-16 13:00" --professional="Alma Estevez" --notes="Some notes for the appointment" # Only changes the notes for the specified appointment. The rest of the information remains unchanged.',
+          '"2021-09-16 13-00" --professional="Alma Estevez" --name="New name" # Only changes the patient\'s name for the specified appointment. The rest of the information remains unchanged.',
+          '"2021-09-16 13-00" --professional="Alma Estevez" --name="New name" --surname="New surname" # Changes the patient\'s name and surname for the specified appointment. The rest of the information remains unchanged.',
+          '"2021-09-16 13-00" --professional="Alma Estevez" --notes="Some notes for the appointment" # Only changes the notes for the specified appointment. The rest of the information remains unchanged.',
         ]
 
         def call(date:, professional:, **options)
