@@ -16,12 +16,25 @@ module Polycon
         ]
 
         def call(date:, professional:, name:, surname:, phone:, notes: nil)
-          aux=Polycon::Helpers.validate('profesional'=>professional, 'nombre'=>name, 'apellido'=>surname)
-          if not aux.empty?
-            warn aux
+          #validate the parameters
+          if not Polycon::Helpers.vali_date?(date) #validate the date
+            warn "ERROR: La fecha \"#{date}\" no es una fecha valida"
+            warn "Formato de fecha valido: \"AAAA-MM-DD HH-II\"\nEjemplo: \"2021-09-16 13-00\""
           else
-            p 'asd'
-          # warn "TODO: Implementar creación de un turno con fecha '#{date}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+            aux=Polycon::Helpers.validate_field('profesional'=>professional, 'nombre'=>name, 'apellido'=>surname, 'telefono'=>phone)
+            if not aux.empty?
+              warn aux
+              warn "ejemplo del comando, \"\"2021-09-16 13-00\" --professional=\"Alma Estevez\" --name=Carlos --surname=Carlosi --phone=2213334567\""
+
+            else #verify if the path exist
+              Polycon::Helpers.polycon_exist?                          #verify if ".polycon" folder exists
+              if not Polycon::Models::Professional.exist?(professional) #verify if the professional folder exists
+                warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
+              else
+                #creo el archivo y le subo la data
+              end
+            # warn "TODO: Implementar creación de un turno con fecha '#{date}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+            end
           end
         end
       end

@@ -12,7 +12,7 @@ module Polycon
         def call(name:, **)
           Polycon::Helpers.polycon_exist?           #verify if ".polycon" folder exists
 
-          aux=Polycon::Helpers.validate('nombre'=>name) #step 1 validate the string
+          aux=Polycon::Helpers.validate_field('nombre'=>name) #step 1 validate the string
           if not aux.empty?
             warn aux
           elsif Polycon::Models::Professional.exist?(name) #step 2 verify if exist
@@ -71,7 +71,7 @@ module Polycon
             warn "ERROR: \"#{old_name}\" no pertenece a ningun profesional existente en el sistema"
           end
 
-          aux=Polycon::Helpers.validate('nombre nuevo'=>new_name) #validate the newName
+          aux=Polycon::Helpers.validate_field('nombre nuevo'=>new_name) #validate the newName
           if not aux.empty?
             warn aux
           else 

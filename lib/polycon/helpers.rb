@@ -8,7 +8,7 @@ module Polycon
             end
         end
 
-        def self.validate(hashs)
+        def self.validate_field(hashs)
             #verify if the string is empty or if it has not valid characters "/" y "\"
             a=[]
             hashs.each do |(key,value)|
@@ -18,6 +18,11 @@ module Polycon
                 end
             end
             return a
+        end
+
+        require 'date'
+        def self.vali_date?(date)
+            DateTime._strptime(date,format="%Y-%m-%d %H-%M")
         end
 
         def self.path() #shortcut to polycon file
