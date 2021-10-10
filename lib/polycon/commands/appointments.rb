@@ -76,7 +76,12 @@ module Polycon
         ]
 
         def call(professional:)
-          warn "TODO: Implementar listado de turnos de la o el profesional '#{professional}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          Polycon::Helpers.polycon_exist?                          #verify if ".polycon" folder exists
+          if not Polycon::Models::Professional.exist?(professional) #verify if the professional folder exists
+            warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
+          else
+            Polycon::Models::Appointment.list_appointments(professional)
+          end
         end
       end
 
