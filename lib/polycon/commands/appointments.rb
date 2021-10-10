@@ -26,7 +26,7 @@ module Polycon
               warn aux
               warn "ejemplo del comando, \"\"2021-09-16 13-00\" --professional=\"Alma Estevez\" --name=Carlos --surname=Carlosi --phone=2213334567\""
 
-            else #verify if the path exist
+            else #verify if the entyre path exist
               Polycon::Helpers.polycon_exist?                          #verify if ".polycon" folder exists
               if not Polycon::Models::Professional.exist?(professional) #verify if the professional folder exists
                 warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
@@ -37,7 +37,6 @@ module Polycon
                 newAppointment.create_file
                 puts "El archivo de la cita del profesional #{professional} el dia \"#{date}\" fue creado con exito"
               end
-            # warn "TODO: Implementar creación de un turno con fecha '#{date}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
             end
           end
         end
@@ -54,7 +53,19 @@ module Polycon
         ]
 
         def call(date:, professional:)
-          warn "TODO: Implementar detalles de un turno con fecha '#{date}' y profesional '#{professional}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          if not Polycon::Helpers.vali_date?(date) #validate the date in the case that enter an incorrect date fomat
+            warn "ERROR: La fecha \"#{date}\" no es una fecha valida"
+            warn "Formato de fecha valido: \"AAAA-MM-DD HH-II\"\nEjemplo: \"2021-09-16 13-00\""
+          else
+            Polycon::Helpers.polycon_exist? #verify if ".polycon" folder exists
+            if not Polycon::Models::Professional.exist?(professional) #verify if the professional folder exists
+              warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
+            elsif not Polycon::Models::Appointment.exist?(professional, date)
+              warn "ERROR: El profesional \"#{professional}\" no posee una cita en la fecha #{date}"
+            else
+              Polycon::Models::Appointment.show_file(professional, date)
+            end
+          end
         end
       end
 
@@ -69,7 +80,19 @@ module Polycon
         ]
 
         def call(date:, professional:)
-          warn "TODO: Implementar borrado de un turno con fecha '#{date}' y profesional '#{professional}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          if not Polycon::Helpers.vali_date?(date) #validate the date
+            warn "ERROR: La fecha \"#{date}\" no es una fecha valida"
+            warn "Formato de fecha valido: \"AAAA-MM-DD HH-II\"\nEjemplo: \"2021-09-16 13-00\""
+          else
+            Polycon::Helpers.polycon_exist? #verify if ".polycon" folder exists
+            if not Polycon::Models::Professional.exist?(professional) #verify if the professional folder exists
+              warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
+            elsif not Polycon::Models::Appointment.exist?(professional, date)
+              warn "ERROR: El profesional \"#{professional}\" no posee una cita en la fecha #{date}"
+            else
+              Polycon::Models::Appointment.cancel_appointment(professional, date)
+            end
+          end
         end
       end
 
@@ -83,7 +106,8 @@ module Polycon
         ]
 
         def call(professional:)
-          warn "TODO: Implementar borrado de todos los turnos de la o el profesional '#{professional}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+          
+          #warn "TODO: Implementar borrado de todos los turnos de la o el profesional '#{professional}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
         end
       end
 
@@ -105,6 +129,7 @@ module Polycon
           else
             Polycon::Models::Appointment.list_appointments(professional)
           end
+          #warn "TODO: Implementar listado de todos los turnos de la o el profesional '#{professional}'.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
         end
       end
 

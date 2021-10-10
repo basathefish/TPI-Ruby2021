@@ -1,28 +1,40 @@
 module Polycon
     module Models
         class Appointment
-            attr_accessor :date, :professional, :name, :surname, :phone, :notes
+            attr_accessor :date, :professional, :info
             def initialize(date, professional, name, surname, phone, notes=nil)
                 @date=date
                 @professional=professional
-                @name=name
-                @surname=surname
-                @phone=phone
-                @notes=notes
+                @info={Apellido: surname, Nombre: name, Telefono: phone}
+                if notes
+                    @info["Notas"]= notes
+                else
+                    @info["Notas"]= ""
+                end
             end
 
             def create_file()
-                appointment=File.new(Helpers.path << "/#{@professional}/#{date}.paf",'w')
-                appointment.puts({'professional'=>@professional,
-                    'surname'=>@surname,
-                    'name'=>@name,
-                    'phone'=>@phone,
-                    'notes'=>@notes}.to_s.gsub(",","\n"))
-                appointment.close
+                File.open(Helpers.path << "/#{@professional}/#{date}.paf",'w') do |appointment|
+                    info.each {|(key,value)| appointment.puts "#{key}: #{value}"}
+                end
             end
 
             def self.exist?(professional, date) #verify if a file w/ that name exists
                 File.exist?(Helpers.path<<"/#{professional}/#{date}.paf")
+            end
+
+            def self.show_file(professional, date)
+                File.readlines(Helpers.path << "/#{professional}/#{date}.paf").each do |line| puts line end 
+            end
+
+            def self.cancel_appointment(professional, date)
+                begin
+                File.delete(Helpers.path << "/#{professional}/#{date}.paf")
+                rescue
+                    warn "ERROR: No se ha podido cancelar la cita del profesional #{professional} para el dia #{date}"
+                else
+                    warn "Se ha eliminado la cita del profesional #{professional} para el dia #{date}"
+                end
             end
 
             def self.list_appointments(prof)
