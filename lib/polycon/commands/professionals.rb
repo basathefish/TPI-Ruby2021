@@ -9,7 +9,7 @@ module Polycon
           '"Ernesto Fernandez" # Creates a new professional named "Ernesto_Fernandez"'
         ]
 
-        def call(name:, **)
+        def call(name: "", **)
           Polycon::Helpers.polycon_exist?           #verify if ".polycon" folder exists
 
           aux=Polycon::Helpers.validate_field('nombre'=>name) #step 1 validate the string
@@ -64,7 +64,7 @@ module Polycon
           '"Alna Esevez" "Alma Estevez" # Renames the professional "Alna Esevez" to "Alma Estevez"',
         ]
 
-        def call(old_name:, new_name:, **)
+        def call(old_name: "", new_name: "", **)
           Polycon::Helpers.polycon_exist?           #verify if ".polycon" folder exists
 
           if not Polycon::Models::Professional.exist?(old_name) #verify if the directory exist

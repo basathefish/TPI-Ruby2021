@@ -15,7 +15,7 @@ module Polycon
           '"2021-08-16 13-00" --professional="Alma Estevez" --name=Carlos --surname=Carlosi --phone=2213334567'
         ]
 
-        def call(date:, professional:, name:, surname:, phone:, notes: nil)
+        def call(date: "", professional: "", name: "", surname: "", phone: "", notes: nil)
           #validate the parameters
           if not Polycon::Helpers.vali_date?(date) #validate the date
             warn "ERROR: La fecha \"#{date}\" no es una fecha valida"
@@ -52,7 +52,7 @@ module Polycon
           '"2021-08-16 13-00" --professional="Alma Estevez" # Shows information for the appointment with Alma Estevez on the specified date and time'
         ]
 
-        def call(date:, professional:)
+        def call(date: "", professional: "")
           if not Polycon::Helpers.vali_date?(date) #validate the date in the case that enter an incorrect date fomat
             warn "ERROR: La fecha \"#{date}\" no es una fecha valida"
             warn "Formato de fecha valido: \"AAAA-MM-DD HH-II\"\nEjemplo: \"2021-08-16 13-00\""
@@ -79,7 +79,7 @@ module Polycon
           '"2021-08-16 13-00" --professional="Alma Estevez" # Cancels the appointment with Alma Estevez on the specified date and time'
         ]
 
-        def call(date:, professional:)
+        def call(date: "", professional: "")
           if not Polycon::Helpers.vali_date?(date) #validate the date
             warn "ERROR: La fecha \"#{date}\" no es una fecha valida"
             warn "Formato de fecha valido: \"AAAA-MM-DD HH-II\"\nEjemplo: \"2021-08-16 13-00\""
@@ -105,7 +105,7 @@ module Polycon
           '"Alma Estevez" # Cancels all appointments for professional Alma Estevez',
         ]
 
-        def call(professional:)
+        def call(professional: "")
           Polycon::Helpers.polycon_exist? #verify if ".polycon" folder exists
           if not Polycon::Models::Professional.exist?(professional) #verify if the professional folder exists
             warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
@@ -126,7 +126,7 @@ module Polycon
           '"Alma Estevez" --date="2021-08-16" # Lists appointments for Alma Estevez on the specified date'
         ]
 
-        def call(professional:, date: nil)
+        def call(professional: "", date: nil)
           Polycon::Helpers.polycon_exist?                          #verify if ".polycon" folder exists
           if not Polycon::Models::Professional.exist?(professional) #verify if the professional folder exists
             warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
@@ -152,7 +152,7 @@ module Polycon
           '"2021-08-16 13-00" "2021-08-16 14-00" --professional="Alma Estevez" # Reschedules appointment on the first date for professional Alma Estevez to be now on the second date provided'
         ]
 
-        def call(old_date:, new_date:, professional:)
+        def call(old_date: "", new_date: "", professional: "")
           if (not Polycon::Helpers.vali_date?(new_date) or not Polycon::Helpers.vali_date?(old_date)) #validate the date in the case that enter an incorrect date fomat
             warn "ERROR: Una de las fechas ingresadas no es una fecha valida"
             warn "Formato de fecha valido: \"AAAA-MM-DD HH-II\"\nEjemplo: \"2021-08-16 13-00\""
@@ -187,8 +187,26 @@ module Polycon
           '"2021-08-16 13-00" --professional="Alma Estevez" --notes="Some notes for the appointment" # Only changes the notes for the specified appointment. The rest of the information remains unchanged.',
         ]
 
-        def call(date:, professional:, **options)
-          warn "TODO: Implementar modificación de un turno de la o el profesional '#{professional}' con fecha '#{date}', para cambiarle la siguiente información: #{options}.\nPodés comenzar a hacerlo en #{__FILE__}:#{__LINE__}."
+        def call(date: "", professional: "", **options)
+          if not Polycon::Helpers.vali_date?(date) #validate the date in the case that enter an incorrect date fomat
+            warn "ERROR: Una de las fechas ingresadas no es una fecha valida"
+            warn "Formato de fecha valido: \"AAAA-MM-DD HH-II\"\nEjemplo: \"2021-08-16 13-00\""
+          else
+            aux= Polycon::Helpers.validate_field(options)
+            if not aux.empty?
+              warn aux
+              warn "ejemplo del comando, \"\"2021-08-16 13-00\" --professional=\"Alma Estevez\" --name=\"nuevoNombre\" --surname=\"nuevoApellido\""
+            else
+              Polycon::Helpers.polycon_exist?                                       #verify if ".polycon" folder exists
+              if not Polycon::Models::Professional.exist?(professional)             #verify if the professional folder exists
+                warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
+              elsif not Polycon::Models::Appointment.exist?(professional, date) #verify if the date file exists
+                warn "ERROR: El profesional \"#{professional}\" no posee una cita en la fecha #{date}"
+              else
+                Polycon::Models::Appointment.edit_file(professional, date, options)
+              end
+            end
+          end
         end
       end
     end

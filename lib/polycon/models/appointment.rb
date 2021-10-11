@@ -5,11 +5,11 @@ module Polycon
             def initialize(date, prof, name, surname, phone, notes=nil)
                 @date=date
                 @prof=prof
-                @info={Apellido: surname, Nombre: name, Telefono: phone}
+                @info={surname: surname, name: name, phone: phone}
                 if notes
-                    @info["Notas"]= notes
+                    @info["notes"]= notes
                 else
-                    @info["Notas"]= ""
+                    @info["notes"]= ""
                 end
             end
 
@@ -76,6 +76,25 @@ module Polycon
                             puts file if file[0...10]==date
                         end
                     end
+                end
+            end
+
+            def self.edit_file(prof, date, options=nil)
+                begin
+                    aux={}
+                    File.readlines(Helpers.path << "/#{prof}/#{date}.paf").each do |line|
+                        aux[line.split(':')[0]]=line.split(':')[1]
+                    end
+                    options.each do |(key,value)|
+                        aux[key.to_s]=value
+                    end
+                    File.open(Helpers.path << "/#{prof}/#{date}.paf",'w') do |appointment|
+                        aux.each {|(key,value)| appointment.puts "#{key}: #{value}"}
+                    end
+                rescue
+                    warn "ERROR: No se ha podido modificar la informacion de la cita del profesional #{prof} para el dia #{date}, por favor, intente nuevamente"
+                else
+                    warn "Se ha modificado correctamente la informacion de la cita del profesional #{prof} del dia #{date}"
                 end
             end
         end
