@@ -31,15 +31,11 @@ module Polycon
                 begin
                     Dir.delete(Helpers.path << "/#{name}") #"Dir.delete" produce an error if the file is not empty
                 rescue SystemCallError
-                    warn "ERROR: El directorio \"#{name}\", no se encuentra vacio, por lo que la eliminacion se vio interrumpida"
+                    warn "ERROR: Hubo un error al intentar eliminar el directorio \"#{name}\"\n Por favor, verifique que el directorio se encuentre vacio y vuelva a intentarlo"
                 else
                     puts "El directorio \"#{name}\" fue eliminado con exito"
                 end
             end
-
-            # def has_appointments?()
-            #     self.appointments.empty?
-            # end
         end
     end
 end

@@ -32,10 +32,5 @@ module Polycon
         def self.path() #shortcut to polycon file
             Dir.home << "/.polycon"
         end
-
-        # def self.format_string(str)
-        #     str.gsub(" ","_")
-        #     p str
-        # end
     end
 end
