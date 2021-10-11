@@ -64,8 +64,9 @@ $ polycon [args]
 # Decisiones de diseño
 
 Para la implementación del proyecto, se utilizó un módulo “Models” el cual abarca la funcionalidad que el proyecto posee a través de sus clases “Professional” y “Appointment”, las cuales se pueden encontrar en la ruta `lib/polycon/models/` dentro de los archivos `profesional.rb` y `appointment.rb` respectivamente
+
 Además de esto, también se implementó un módulo “Helpers”, el cual brinda distintos métodos de apoyo a las clases ya mencionadas
-este módulo puede encontrarse siguiendo la ruta `lib/polycon/Helpers.rb`
+Este módulo puede encontrarse siguiendo la ruta `lib/polycon/Helpers.rb`
 
 ## Información sobre la clase Professional
 
@@ -86,8 +87,10 @@ La implementación de esta clase posee los siguientes comportamientos de clase:
 ## Sobre el código de Professional en Commands
 
 Los comandos referentes a los profesionales poseen una verificación en caso de haber realizado exitosamente la acción indicada
+
 Además de estos, también se incluyeron validadores para los parámetros recibidos y un verificador en caso de que el profesional ingresado ya posea una carpeta a su nombre
-Para la validación de parámetros se utilizó el método `validate_field` del módulo “Helpers”, el cual informa al usuario en caso de haber enviado un parámetro invalido (strings vacíos o con los caracteres “\” o “/”)
+Para la validación de parámetros se utilizó el método `validate_field` del módulo `Helpers`, el cual informa al usuario en caso de haber enviado un parámetro invalido (strings vacíos o con los caracteres “\” o “/”)
+
 Ambos mensajes, en caso de haber realizado exitosamente la acción indicada, como así en caso de fallar en cualquiera el validador o el verificador, se realizan a través de la consola de comandos en lenguaje español
 
 Sumado a esto, commands le da uso al método `polycon_exist?` para asegurar la existencia de la carpeta `.polycon`
@@ -128,6 +131,7 @@ En caso de no enviar los parámetros solicitados por el comando, este se instanc
 
 Además de este validador, todos los comandos cuentan con uno o más verificadores para las rutas deseadas, es decir que verifican si el profesional ingresado se encuentra registrado en el sistema, así como verificar si el archivo sobre el cual se desea actuar también se encuentra registrado en el sistema
 Por ejemplo en caso de querer leer un archivo “2021-07-18 11-11” dentro de una carpeta “Armando Esteban”, el validador mencionado verificará si dicha carpeta y archivo existen en el sistema
+
 Sumado a esto, commands le da uso al método `polycon_exist?` para asegurar la existencia de la carpeta `.polycon`
 
 
