@@ -68,6 +68,8 @@ Para la implementación del proyecto, se utilizó un módulo “Models” el cua
 Además de esto, también se implementó un módulo “Helpers”, el cual brinda distintos métodos de apoyo a las clases ya mencionadas
 Este módulo puede encontrarse siguiendo la ruta `lib/polycon/Helpers.rb`
 
+Como información extra, los mensajes de respuesta del sistema, ya sea en caso de haber realizado exitosamente la acción indicada, o en caso de fallar en alguna operación, se realizan a través de la consola de comandos en lenguaje español
+
 ## Información sobre la clase Professional
 
 La implementación de esta clase posee los siguientes comportamientos de clase:
@@ -90,8 +92,6 @@ Los comandos referentes a los profesionales poseen una verificación en caso de 
 
 Además de estos, también se incluyeron validadores para los parámetros recibidos y un verificador en caso de que el profesional ingresado ya posea una carpeta a su nombre
 Para la validación de parámetros se utilizó el método `validate_field` del módulo `Helpers`, el cual informa al usuario en caso de haber enviado un parámetro invalido (strings vacíos o con los caracteres “\” o “/”)
-
-Ambos mensajes, en caso de haber realizado exitosamente la acción indicada, como así en caso de fallar en cualquiera el validador o el verificador, se realizan a través de la consola de comandos en lenguaje español
 
 Sumado a esto, commands le da uso al método `polycon_exist?` para asegurar la existencia de la carpeta `.polycon`
 
