@@ -63,7 +63,7 @@ module Polycon
             elsif not Polycon::Models::Appointment.exist?(professional, date)
               warn "ERROR: El profesional \"#{professional}\" no posee una cita en la fecha #{date}"
             else
-              Polycon::Models::Appointment.show_file(professional, date)
+              Polycon::Models::Appointment.show_file(professional, date).each do |line| puts line end
             end
           end
         end
@@ -90,7 +90,11 @@ module Polycon
             elsif not Polycon::Models::Appointment.exist?(professional, date)
               warn "ERROR: El profesional \"#{professional}\" no posee una cita en la fecha #{date}"
             else
-              Polycon::Models::Appointment.cancel_appointment(professional, date)
+              if Polycon::Models::Appointment.cancel_appointment(professional, date)
+                warn "ERROR: No se ha podido cancelar la cita del profesional #{professional} para el dia #{date}"
+              else
+                warn "Se ha eliminado la cita del profesional #{professional} para el dia #{date}"
+            end
             end
           end
         end
@@ -110,7 +114,11 @@ module Polycon
           if not Polycon::Models::Professional.exist?(professional) #verify if the professional folder exists
             warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
           else
-            Polycon::Models::Appointment.cancel_all_files(professional) 
+            if Polycon::Models::Appointment.cancel_all_files(professional)
+              warn "Se ha eliminado todas las citas del profesional #{professional}"
+            else
+              warn "ERROR: No se ha podido cancelar todas las citas del profesional #{professional}"
+            end
           end
         end
       end
@@ -136,7 +144,20 @@ module Polycon
               warn "Formato de fecha valido: \"AAAA-MM-DD\"\nEjemplo: \"2021-08-16\""
               exit
             end
-            Polycon::Models::Appointment.list_appointments(professional,date)
+            list= Polycon::Models::Appointment.list_appointments(professional,date)
+            if list.empty? #tiene citas?
+              puts "No hay citas cargadas para el profesional \"#{professional}\" actualmente"
+            else
+              if not date
+                  puts "El profesional \"#{professional}\" posee las siguientes citas:"
+                  puts list
+              else
+                  puts "El profesional \"#{professional}\" posee las siguientes citas el dia #{date}:"
+                  list.each do |file|
+                      puts file if file[0...10]==date
+                  end
+              end
+          end
           end
         end
       end
@@ -165,7 +186,11 @@ module Polycon
             elsif Polycon::Models::Appointment.exist?(professional, new_date) #verify if the new_date file exists
               warn "ERROR: El profesional \"#{professional}\" ya posee una cita en la fecha #{new_date}"
             else
-              Polycon::Models::Appointment.rename_file(professional, old_date, new_date)
+              if Polycon::Models::Appointment.rename_file(professional, old_date, new_date)
+                warn "Se ha modificado correctamente la cita del profesional #{professional} del dia #{old_date} para el dia #{new_date}"
+              else
+                warn "ERROR: No se ha podido reasignar la cita del profesional #{professional} para el dia #{new_date}, por favor, intente nuevamente"
+              end
             end
           end
         end
@@ -203,7 +228,11 @@ module Polycon
               elsif not Polycon::Models::Appointment.exist?(professional, date) #verify if the date file exists
                 warn "ERROR: El profesional \"#{professional}\" no posee una cita en la fecha #{date}"
               else
-                Polycon::Models::Appointment.edit_file(professional, date, options)
+                if Polycon::Models::Appointment.edit_file(professional, date, options)
+                  warn "ERROR: No se ha podido modificar la informacion de la cita del profesional #{professional} para el dia #{date}, por favor, intente nuevamente"
+                else
+                  warn "Se ha modificado correctamente la informacion de la cita del profesional #{professional} del dia #{date}"
+                end
               end
             end
           end

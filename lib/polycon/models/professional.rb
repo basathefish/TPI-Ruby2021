@@ -19,21 +19,16 @@ module Polycon
             end
 
             def self.list_professionals()
-                if Dir.children(Helpers.path).empty?
-                    puts "No hay profesionales cargados en el sistema actualmente"
-                else
-                    puts "Los profesionales registrados en el sistema son los siguientes:"
-                    puts Dir.children(Helpers.path)
-                end
+                Dir.children(Helpers.path)
             end
 
             def self.delete_professional(name)
                 begin
                     Dir.delete(Helpers.path << "/#{name}") #"Dir.delete" produce an error if the file is not empty
                 rescue SystemCallError
-                    warn "ERROR: Hubo un error al intentar eliminar el directorio \"#{name}\"\n Por favor, verifique que el directorio se encuentre vacio y vuelva a intentarlo"
+                    return false
                 else
-                    puts "El directorio \"#{name}\" fue eliminado con exito"
+                    return true
                 end
             end
         end

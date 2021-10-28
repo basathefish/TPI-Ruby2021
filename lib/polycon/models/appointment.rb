@@ -24,29 +24,29 @@ module Polycon
             end
 
             def self.show_file(prof, date)
-                File.readlines(Helpers.path << "/#{prof}/#{date}.paf").each do |line| puts line end 
+                File.readlines(Helpers.path << "/#{prof}/#{date}.paf") 
             end
 
             def self.cancel_appointment(prof, date)
                 begin
                 File.delete(Helpers.path << "/#{prof}/#{date}.paf")
                 rescue
-                    warn "ERROR: No se ha podido cancelar la cita del profesional #{prof} para el dia #{date}"
+                    return false
                 else
-                    warn "Se ha eliminado la cita del profesional #{prof} para el dia #{date}"
+                    return true
                 end
             end
 
             def self.cancel_all_files(prof)
                 if Dir.children(Helpers.path << "/#{prof}").empty?
-                    puts "No hay citas cargadas para el profesional \"#{prof}\" actualmente"
+                    warn "No hay citas cargadas para el profesional \"#{prof}\" actualmente"
                 else
                     begin
                         Dir.children(Helpers.path << "/#{prof}").each {|file| File.delete(Helpers.path << "/#{prof}/#{file}")}
                     rescue
-                        warn "ERROR: No se ha podido cancelar todas las citas del profesional #{prof}"
+                        return false
                     else
-                        warn "Se ha eliminado todas las citas del profesional #{prof}"
+                        return true
                     end
                 end
             end
@@ -55,28 +55,15 @@ module Polycon
                 begin
                 File.rename(Helpers.path << "/#{prof}/#{old_date}.paf",Helpers.path << "/#{prof}/#{new_date}.paf")
                 rescue
-                    warn "ERROR: No se ha podido reasignar la cita del profesional #{prof} para el dia #{new_date}, por favor, intente nuevamente"
+                    return false
                 else
-                    warn "Se ha modificado correctamente la cita del profesional #{prof} del dia #{old_date} para el dia #{new_date}"
+                    return true
                 end
             end
 
             def self.list_appointments(prof, date=nil)
                 #remuevo la extension ".paf" de los archivos para que solo muestre las fechas
-                aux=Dir.children(Helpers.path << "/#{prof}").each {|file| file.slice! ".paf"}
-                if aux.empty? #tiene citas?
-                    puts "No hay citas cargadas para el profesional \"#{prof}\" actualmente"
-                else
-                    if not date
-                        puts "El profesional \"#{prof}\" posee las siguientes citas:"
-                        puts aux
-                    else
-                        puts "El profesional \"#{prof}\" posee las siguientes citas el dia #{date}:"
-                        aux.each do |file|
-                            puts file if file[0...10]==date
-                        end
-                    end
-                end
+                Dir.children(Helpers.path << "/#{prof}").each {|file| file.slice! ".paf"}
             end
 
             def self.edit_file(prof, date, options=nil)
@@ -92,9 +79,9 @@ module Polycon
                         aux.each {|(key,value)| appointment.puts "#{key}: #{value}"}
                     end
                 rescue
-                    warn "ERROR: No se ha podido modificar la informacion de la cita del profesional #{prof} para el dia #{date}, por favor, intente nuevamente"
+                    return false
                 else
-                    warn "Se ha modificado correctamente la informacion de la cita del profesional #{prof} del dia #{date}"
+                    return true
                 end
             end
         end

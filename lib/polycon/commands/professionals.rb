@@ -39,7 +39,11 @@ module Polycon
           if not Polycon::Models::Professional.exist?(name) #verify if the directory exist
             warn "ERROR: \"#{name}\" no pertenece a ningun profesional existente en el sistema"
           else 
-            Polycon::Models::Professional.delete_professional(name) #the verification if the file is empty is inside the method
+            if Polycon::Models::Professional.delete_professional(name) #the verification if the file is empty is inside the method
+              puts "El directorio \"#{name}\" fue eliminado con exito"
+            else
+              warn "ERROR: Hubo un error al intentar eliminar el directorio \"#{name}\"\n Por favor, verifique que el directorio se encuentre vacio y vuelva a intentarlo"
+            end
           end
         end
       end
@@ -52,7 +56,13 @@ module Polycon
 
         def call(*)
           Polycon::Helpers.polycon_exist?           #verify if ".polycon" folder exists
-          Polycon::Models::Professional.list_professionals()
+          list =Polycon::Models::Professional.list_professionals()
+          if list.empty?
+            puts "No hay profesionales cargados en el sistema actualmente"
+          else
+            puts "Los profesionales registrados en el sistema son los siguientes:"
+            puts list
+          end
         end
       end
 
