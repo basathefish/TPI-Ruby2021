@@ -80,7 +80,7 @@ module Polycon
                 require 'date'
                 aux={}
                 date= Date.parse(date,format="%Y-%m-%d")
-                (date..date+7).each {|dat|
+                (date..date+6).each {|dat|
                     aux[dat.to_s] = list_day(dat.to_s,prof)
                 }
             end

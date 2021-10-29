@@ -29,6 +29,12 @@ module Polycon
             DateTime._strptime(date,format="%Y-%m-%d %H:%M")
         end
 
+        def self.arrayWeek(date)
+            date= Date.parse(date,format="%Y-%m-%d")
+            aux= (date..date+6).map do |day| day.to_s end
+            return aux
+        end
+
         def self.path() #shortcut to polycon file
             Dir.home << "/.polycon"
         end
