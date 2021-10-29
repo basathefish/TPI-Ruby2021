@@ -26,7 +26,7 @@ module Polycon
             if not date[16].nil?
                 date=date[0..15]
             end
-            DateTime._strptime(date,format="%Y-%m-%d %H-%M")
+            DateTime._strptime(date,format="%Y-%m-%d %H:%M")
         end
 
         def self.path() #shortcut to polycon file
