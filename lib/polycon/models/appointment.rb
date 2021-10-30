@@ -27,8 +27,13 @@ module Polycon
                 File.readlines(Helpers.path << "/#{prof}/#{date}.paf")
             end
 
+            def show_data()
+                "Professional: #{obj.prof}\n Patient:\n #{obj.info[:surname]}\n #{obj.info[:name]}"
+            end
+
             def self.file_to_object(prof, date)
-                aux = self.show_file(prof, date).map {|value| value.delete("\n")}
+                aux = self.show_file(prof, date).map {|value| (value.gsub!(/.*?(?<=: )/im, "")).chomp}
+                p aux
                 Appointment.new(date, prof, *aux)
             end
 

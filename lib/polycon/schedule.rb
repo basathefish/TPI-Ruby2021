@@ -16,9 +16,9 @@ module Polycon
             # begin
                 Prawn::Document.generate(self.fileName(date)) do |file|
                     # table=[]
-                    table = [["Hour/Day",*date]]      #row with the days
+                    table = [["//Hour\nDay",*date]]      #row with the days
                     table += self.create_columns(table, file, list) #rows with data of the schedule
-                    file.table(table, :header => true, :row_colors => ["BBDDEE","EEEEEE"], :cell_style => {:size => 8})
+                    file.table(table, :header => true, :row_colors => ["BBDDEE","EEEEEE"], :cell_style => {:size => 10})
                 end
         #     rescue
         #         return false
@@ -44,11 +44,9 @@ module Polycon
         def self.info_grid(file, list, day, hour)
             aux= []
             list.select {|obj| obj.date == "#{day} #{hour}"}.map {|obj|
-                aux << ["Professional: #{obj.prof}, #{obj.info[:surname]}, #{obj.info[:name]}"]
+                aux << ["Professional: #{obj.prof}\n Patient:\n #{obj.info[:surname]}\n #{obj.info[:name]}"]
             }
             file.make_table(aux,:cell_style => {:size => 10, :width=>80})
-            
-            p 'aux'
         end
     end
 end
