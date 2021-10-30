@@ -5,7 +5,7 @@ module Polycon
             def initialize(date, prof, name, surname, phone, notes=nil)
                 @date=date
                 @prof=prof
-                @info={name: name, surname: surname, phone: phone}
+                @info={surname: surname, name: name, phone: phone}
                 if notes
                     @info["notes"]= notes
                 else
