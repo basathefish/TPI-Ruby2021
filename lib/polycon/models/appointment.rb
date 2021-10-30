@@ -33,7 +33,6 @@ module Polycon
 
             def self.file_to_object(prof, date)
                 aux = self.show_file(prof, date).map {|value| (value.gsub!(/.*?(?<=: )/im, "")).chomp}
-                p aux
                 Appointment.new(date, prof, *aux)
             end
 
