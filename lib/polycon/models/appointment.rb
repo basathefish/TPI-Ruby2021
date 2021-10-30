@@ -5,7 +5,7 @@ module Polycon
             def initialize(date, prof, name, surname, phone, notes=nil)
                 @date=date
                 @prof=prof
-                @info={surname: surname, name: name, phone: phone}
+                @info={name: name, surname: surname, phone: phone}
                 if notes
                     @info["notes"]= notes
                 else
@@ -24,7 +24,12 @@ module Polycon
             end
 
             def self.show_file(prof, date)
-                File.readlines(Helpers.path << "/#{prof}/#{date}.paf") 
+                File.readlines(Helpers.path << "/#{prof}/#{date}.paf")
+            end
+
+            def self.file_to_object(prof, date)
+                aux = self.show_file(prof, date).map {|value| value.delete("\n")}
+                Appointment.new(date, prof, *aux)
             end
 
             def self.cancel_appointment(prof, date)
@@ -83,31 +88,34 @@ module Polycon
                 (date..date+6).each {|dat|
                     aux[dat.to_s] = list_day(dat.to_s,prof)
                 }
+                return aux
             end
 
             def self.list_day(date,prof=nil)
-                begin
+                # begin
                     aux=[]
                     if not prof
                         Professional.list_professionals.each {|folder|
                             list_appointments(folder,date).each {|file| 
                                 if file
-                                    aux << (show_file(folder, file) << "professional: #{folder}")
+                                    # aux [file[11..15]]=[]
+                                    aux << file_to_object(folder, file)
                                 end
                             }
                         }
                     else
                         list_appointments(prof,date).each {|file| 
                             if file
-                                aux << (show_file(prof, file) << "professional: #{prof}")
+                                aux << file_to_object(prof, file)
                             end
                         }
                     end
-                rescue
-                    return false
-                else
+                # rescue
+                #     return false
+                # else
+                    p aux
                     return *aux
-                end
+                # end
             end
 
             def self.edit_file(prof, date, options=nil)

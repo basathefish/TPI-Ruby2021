@@ -19,8 +19,9 @@ module Polycon
           #validate the parameters
           if not Polycon::Helpers.vali_date?(date) #validate the date
             warn "ERROR: La fecha \"#{date}\" no es una fecha valida"
-            warn "Formato de fecha valido: \"AAAA-MM-DD HH-II\"\nEjemplo: \"2021-08-16 13:00\""
+            warn "Formato de fecha valido: \"AAAA-MM-DD HH:II\"\nEjemplo: \"2021-08-16 13:00\""
           else
+            date=date.gsub(":","-") #format date
             aux=Polycon::Helpers.validate_field('profesional'=>professional, 'nombre'=>name, 'apellido'=>surname, 'telefono'=>phone)
             if not aux.empty?
               warn aux
@@ -55,8 +56,9 @@ module Polycon
         def call(date: "", professional: "")
           if not Polycon::Helpers.vali_date?(date) #validate the date in the case that enter an incorrect date fomat
             warn "ERROR: La fecha \"#{date}\" no es una fecha valida"
-            warn "Formato de fecha valido: \"AAAA-MM-DD HH-II\"\nEjemplo: \"2021-08-16 13:00\""
+            warn "Formato de fecha valido: \"AAAA-MM-DD HH:II\"\nEjemplo: \"2021-08-16 13:00\""
           else
+            date=date.gsub(":","-") #format date
             Polycon::Helpers.polycon_exist? #verify if ".polycon" folder exists
             if not Polycon::Models::Professional.exist?(professional) #verify if the professional folder exists
               warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
@@ -84,8 +86,9 @@ module Polycon
         def call(date: "", professional: "")
           if not Polycon::Helpers.vali_date?(date) #validate the date
             warn "ERROR: La fecha \"#{date}\" no es una fecha valida"
-            warn "Formato de fecha valido: \"AAAA-MM-DD HH-II\"\nEjemplo: \"2021-08-16 13:00\""
+            warn "Formato de fecha valido: \"AAAA-MM-DD HH:II\"\nEjemplo: \"2021-08-16 13:00\""
           else
+            date=date.gsub(":","-") #format date
             Polycon::Helpers.polycon_exist? #verify if ".polycon" folder exists
             if not Polycon::Models::Professional.exist?(professional) #verify if the professional folder exists
               warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
@@ -188,7 +191,7 @@ module Polycon
               exit
             end
             list=Polycon::Models::Appointment.list_day(date, professional) #get all the appointments in that date {with professional optionally}
-            if Polycon::Schedule.create_file(list,[date])# Polycon::Models::Appointment.create_file(list) #generate the pdf file
+            if Polycon::Schedule.create_file({date => list},[date])# Polycon::Models::Appointment.create_file(list) #generate the pdf file
               puts "El archivo .pdf fue creado correctamente"
               puts "Este puede visualizarse en la ruta \"#{Dir.home << "/.polycon_files"}\""
             else
@@ -245,8 +248,9 @@ module Polycon
         def call(old_date: "", new_date: "", professional: "")
           if (not Polycon::Helpers.vali_date?(new_date) or not Polycon::Helpers.vali_date?(old_date)) #validate the date in the case that enter an incorrect date fomat
             warn "ERROR: Una de las fechas ingresadas no es una fecha valida"
-            warn "Formato de fecha valido: \"AAAA-MM-DD HH-II\"\nEjemplo: \"2021-08-16 13:00\""
+            warn "Formato de fecha valido: \"AAAA-MM-DD HH:II\"\nEjemplo: \"2021-08-16 13:00\""
           else
+            date=date.gsub(":","-") #format date
             Polycon::Helpers.polycon_exist?                                       #verify if ".polycon" folder exists
             if not Polycon::Models::Professional.exist?(professional)             #verify if the professional folder exists
               warn "ERROR: El profesional \"#{professional}\" no se encuentra registrado en el sistema"
@@ -284,8 +288,9 @@ module Polycon
         def call(date: "", professional: "", **options)
           if not Polycon::Helpers.vali_date?(date) #validate the date in the case that enter an incorrect date fomat
             warn "ERROR: Una de las fechas ingresadas no es una fecha valida"
-            warn "Formato de fecha valido: \"AAAA-MM-DD HH-II\"\nEjemplo: \"2021-08-16 13:00\""
+            warn "Formato de fecha valido: \"AAAA-MM-DD HH:II\"\nEjemplo: \"2021-08-16 13:00\""
           else
+            date=date.gsub(":","-") #format date
             aux= Polycon::Helpers.validate_field(options)
             if not aux.empty?
               warn aux
