@@ -92,13 +92,12 @@ module Polycon
             end
 
             def self.list_day(date,prof=nil)
-                # begin
+                begin
                     aux=[]
                     if not prof
                         Professional.list_professionals.each {|folder|
                             list_appointments(folder,date).each {|file| 
                                 if file
-                                    # aux [file[11..15]]=[]
                                     aux << file_to_object(folder, file)
                                 end
                             }
@@ -110,12 +109,11 @@ module Polycon
                             end
                         }
                     end
-                # rescue
-                #     return false
-                # else
-                    p aux
+                rescue
+                    return false
+                else
                     return *aux
-                # end
+                end
             end
 
             def self.edit_file(prof, date, options=nil)
