@@ -223,7 +223,7 @@ module Polycon
               exit
             end
             list=Polycon::Models::Appointment.list_week(date, professional) #get all the appointments in that week {with professional optionally}
-            date= Helpers.arrayWeek(date)
+            date= Helpers.array_week(date)
             if Polycon::Schedule.create_file(list,date) #generate the pdf file
               puts "El archivo .pdf fue creado correctamente"
               puts "Este puede visualizarse en la ruta \"#{Dir.home << "/.polycon_files"}\""

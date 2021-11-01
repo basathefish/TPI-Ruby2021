@@ -17,7 +17,7 @@ module Polycon
                 Prawn::Document.generate(self.fileName(date)) do |file|
                     # table=[]
                     table = [["//Hour\nDay",*date]]      #row with the days
-                    table += self.create_columns(table, file, list) #rows with data of the schedule
+                    table += self.create_table(table, file, list) #rows with data of the schedule
                     file.table(table, :header => true, :row_colors => ["BBDDEE","EEEEEE"], :cell_style => {:size => 10})
                 end
         #     rescue
@@ -27,7 +27,7 @@ module Polycon
         #     end
         end
 
-        def self.create_columns( table, file, list)
+        def self.create_table( table, file, list)
             TIME.inject([]) { |aux, hour| #set the rows for the schedule
                 aux+=[list.keys.inject(["#{hour}"]) { |info, day| #set the gridds {or the colums} for the schedule
 

@@ -29,7 +29,7 @@ module Polycon
             DateTime._strptime(date,format="%Y-%m-%d %H:%M")
         end
 
-        def self.arrayWeek(date)
+        def self.array_week(date)
             date= Date.parse(date,format="%Y-%m-%d")
             aux= (date..date+6).map do |day| day.to_s end
             return aux
