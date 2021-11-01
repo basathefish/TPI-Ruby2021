@@ -61,7 +61,7 @@ $ polycon [args]
 > Bundler. Para más información sobre la instalación de las dependencias, consultar la
 > siguiente sección ("Desarrollo").
 
-# Decisiones de diseño
+# Decisiones de diseño Primera entrega
 
 Para la implementación del proyecto, se utilizó un módulo “Models” el cual abarca la funcionalidad que el proyecto posee a través de sus clases “Professional” y “Appointment”, las cuales se pueden encontrar en la ruta `lib/polycon/models/` dentro de los archivos `profesional.rb` y `appointment.rb` respectivamente
 
@@ -150,3 +150,61 @@ en caso de recibir un string cuyo tamaño es mayor a los 16 caracteres que el fo
 
 -`path`: Este método retorna la ruta desde el directorio home hasta la carpeta `.polycon`. Esto se utiliza con el fin de acortar las referencias a dicha ruta dentro de ambas clases Professional y Appointment
 
+# Decisiones de diseño segunda entrega
+
+Esta sección está dedicada a explicar o definir funcionalidades y correcciones añadidas a la 1ra entrega con el fin de mejorar su funcionabilidad
+
+## correcciones realizadas
+
+-Al momento de ingresar fechas con hora ahora utiliza el formato "HH:MM" en lugar de "HH-MM" siendo "HH" la hora y "MM" los minutos
+
+-Se movieron las impresiones a pantalla a la sección de comandos para que el modelo no posea un rol en dicha tarea
+
+## nuevos comandos para appointments
+
+Como se solicitó, para esta entrega ahora es posible listar las citas cargadas en el sistema para un día en concreto o para una semana en concreta
+A dichos comandos se les solicita el ingreso de un día con el formato “AAAA-MM-DD” y con la opción de filtrar por un profesional en concreto
+Por lo que al poseer al profesional como optativo, opte por asignar dichas funcionalidades a la clase appointments
+
+## Modificaciones en la clase appointments
+
+Dentro de la clase Appointment dentro del modelo, se añadieron nuevos métodos para poder realizar la funcionalidad solicitada para la segunda entrega
+Dichos métodos se listarán a continuación
+
+- `show_data`: Este método devuelve la información relevante de un objeto Appointment, es decir, el nombre y el apellido de la persona que solicito la cita, así como el profesional que lo atenderá
+- `file_to_object`: Este método recibe el profesional y la fecha de una cita y devuelve la cita convertida en un objeto de la clase Appointment
+- `list_day`: Este método devuelve todas las citas asignadas a un día en específico recibido por parámetro
+Dichas citas se devuelven en forma de un arreglo de objetos de tipo Appointment
+Opcionalmente puede recibir un profesional para realizar un filtrado
+- `list_week`: Este método cumple una función similar a ` list_day`, devolviendo todos las citas dentro de una semana en especifica
+Dichas citas se devuelven en forma de un arreglo de objetos de tipo Appointment
+Opcionalmente puede recibir un profesional para realizar un filtrado
+
+### Nota a tener en cuenta
+En cuanto al método `list_week`, este toma a la fecha recibida como la 1er fecha de la semana, por lo que el archivo que generará, mostrará la fecha recibida como el 1er día de dicha semana
+
+## Modificaciones en Helpers
+Dentro del modulo Helpers se implementaron ciertas modificaciones para cumplir con lo solicitado para la segunda entrega
+-Se modifico el método `vali_date` para que este acepte fechas con formato `%Y-%m-%d %H:%M`, en lugar de `%Y-%m-%d %H-%M`
+-Se agrego un nuevo método `array_week`, el cual recibe una fecha de formato `%Y-%m-%d` y retorna un arreglo con esa fecha y las 6 siguientes
+
+## Gema Prawn y la clase Schedule
+
+Para realizar el archivo pdf, así como las tablas, se utiliza la gema “Prawn” y para obtener el formato de dicha tabla se utilizo la gema “Prawn-table”, la cual brinda soporte para la generación de tablas en pdf utilizando Prawn
+
+Opte por la presentación de dichas tablas en un pdf, ya que en contraste con HTMLs, los PDFs brindan una mayor durabilidad a mi parecer, pudiendo además el mover dicho archivo en caso de querer guardar una copia del documento o compartir el mismo
+
+Para el manejo de dicha gema, se utilizó una nueva clase `Schedule`, con ruta `lib/Polycon/Schedule.rb`, ya que de esta forma se desliga el pasaje de listado a pdf de la clase Appointment
+
+### La clase Schedule
+Como se mencionó, esta clase es la encargada de la creación de los pdf con las tablas de horarios, y para realizar esto, la clase cuenta con los siguientes métodos
+-`fileName`: Este método es el encargado de colocarle el nombre al archivo pdf
+-`créate_file`: Método base, el cual crea el archivo utilizando los datos que recibe del resto de métodos de la clase Schedule
+-`create_table`: Este método crea la tabla así como las tablas internas de esta, utilizando el método `info_grid` para rellenar las casillas que poseen información, dejándolas vacías en caso de no existir un turno en dicho día a dicha hora
+-`info_grid`: Devuelve la información de las citas correspondientes a cierta hora cierto día
+En caso de que haya mas de un profesional con una cita con tales características, la tabla presentará una subtabla en dicha casilla
+### Nota importante
+Los archivos .pdf se guardarán en una carpeta `.polycon_files` ubicada en la ruta home
+
+## Dependencias
+Como se menciono anteriormente, para realizar el archivo pdf, se utilizo la gema Prawn, por lo que es necesario realizar un `bundle install` para instalar las nuevas dependencias
