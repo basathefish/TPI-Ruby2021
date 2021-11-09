@@ -13,18 +13,18 @@ module Polycon
         end
 
         def self.create_file(list,date)
-            begin
+            # begin
                 Prawn::Document.generate(self.fileName(date)) do |file|
                     # table=[]
                     table = [["//Hour\nDay",*date]]      #row with the days
                     table += self.create_table(table, file, list) #rows with data of the schedule
                     file.table(table, :header => true, :row_colors => ["BBDDEE","EEEEEE"], :cell_style => {:size => 10})
                 end
-            rescue
-                return false
-            else
+            # rescue
+                # return false
+            # else
                 return true
-            end
+            # end
         end
 
         def self.create_table( table, file, list)
