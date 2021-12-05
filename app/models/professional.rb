@@ -1,3 +1,9 @@
 class Professional < ApplicationRecord
-    validate :name, presence: true, uniqueness: true
+    has_many :appointments
+    
+    validates :name, presence: { message: " is required"}, uniqueness: true
+
+    def to_s
+        "#{name}"
+    end
 end
