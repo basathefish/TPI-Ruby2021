@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2021_12_05_203859) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "surname", null: false
-    t.index ["name"], name: "index_professionals_on_name", unique: true
+    t.index ["name"], name: "index_professionals_on_name"
   end
 
   create_table "rols", force: :cascade do |t|
