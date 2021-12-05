@@ -15,6 +15,7 @@ class ProfessionalsTest < ApplicationSystemTestCase
     click_on "New Professional"
 
     fill_in "Name", with: @professional.name
+    fill_in "Surname", with: @professional.surname
     click_on "Create Professional"
 
     assert_text "Professional was successfully created"
@@ -26,6 +27,7 @@ class ProfessionalsTest < ApplicationSystemTestCase
     click_on "Edit", match: :first
 
     fill_in "Name", with: @professional.name
+    fill_in "Surname", with: @professional.surname
     click_on "Update Professional"
 
     assert_text "Professional was successfully updated"
