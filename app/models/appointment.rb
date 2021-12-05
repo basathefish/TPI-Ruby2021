@@ -5,5 +5,4 @@ class Appointment < ApplicationRecord
   # validador custom de professional+date
 
   belongs_to :professional
-
 end

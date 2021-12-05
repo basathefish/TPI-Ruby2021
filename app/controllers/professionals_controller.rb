@@ -55,4 +55,8 @@ class ProfessionalsController < ApplicationController
     def professional_params
       params.require(:professional).permit(:name)
     end
+
+    def check_autentication
+                                                      # redirigir a un error 403 si no tiene permisos
+    end
 end
