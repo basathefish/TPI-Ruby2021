@@ -1,8 +1,8 @@
 <%= form_with(url: url, method: 'get', local: true, scope: :export) do |fo| %>
     <div>
-        <%= fo.label "Date" %> format YYYY-MM-DD HH:MM
+        <%= fo.label "Date" %> format YYYY-MM-DD
         <%= fo.text_field :date,
-        data: {controller: "flatpickr", flatpickr_date_format: "Y-m-d H:i"} %>
+        data: {controller: "flatpickr", flatpickr_date_format: "Y-m-d"} %>
 
         <%= fo.label "All Week?" %> 
         <%= fo.check_box :week  %>
