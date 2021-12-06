@@ -17,8 +17,6 @@ class AppointmentsUtils
             day = dat.date.to_date.to_s
             if hash.key?(day)
                 hash[day].append(dat)
-                p day
-                p hash
             end
         end
     end

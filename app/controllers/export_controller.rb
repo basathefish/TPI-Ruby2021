@@ -17,7 +17,7 @@ class ExportController < ApplicationController
             hash = AppointmentsUtils.date_to_hash(day, week)
             data = AppointmentsUtils.create_data(hash, appointments)
             
-            p "----- ----- ----- ----- ----- ----- ----- ----- ----- ----- "
+            p "----- ----- ----- ----- #{data} ----- ----- ----- ----- ----- ----- "
             data.each do |aux|
                 p "#{aux}"
             end
