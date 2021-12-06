@@ -41,8 +41,12 @@ class ProfessionalsController < ApplicationController
 
   # DELETE /professionals/1
   def destroy
-    @professional.destroy
-    redirect_to professionals_url, notice: 'Professional was successfully destroyed.'
+    if @professional.destroy
+      notice = "ERROR; The professional #{professional.name} #{professional.surname} has appointments"
+    else
+      notice = "The professional #{professional.name} #{professional.surname} was deleted successfully"
+    end
+    redirect_to professionals_url, notice: notice
   end
 
   private

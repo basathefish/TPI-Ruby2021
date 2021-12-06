@@ -1,28 +1,28 @@
 class AppointmentsController < ApplicationController
+  before_action :set_professional
   before_action :set_appointment, only: [:show, :edit, :update, :destroy]
 
-  # GET /appointments
+  # GET /professional/1/appointments
   def index
     @appointments = @professional.appointments
   end
 
-  # GET /appointments/1
+  # GET /professional/1/appointments/1
   def show
   end
 
-  # GET /appointments/new
+  # GET /professional/1/appointments/new
   def new
     @appointment = @professional.appointments.new()
   end
 
-  # GET /appointments/1/edit
+  # GET /professional/1/appointments/1/edit
   def edit
   end
 
-  # POST /appointments
+  # POST /professional/1/appointments
   def create
-    @appointment = @professional.appointment.new(appointment_params)
-
+    @appointment = @professional.appointments.new(appointment_params)
     if @appointment.save
       redirect_to [@professional,@appointment], notice: 'Appointment was successfully created.'
     else
@@ -30,7 +30,7 @@ class AppointmentsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /appointments/1
+  # PATCH/PUT /professional/1/appointments/1
   def update
     if @appointment.update(appointment_params)
       redirect_to [@professional,@appointment], notice: 'Appointment was successfully updated.'
@@ -39,16 +39,16 @@ class AppointmentsController < ApplicationController
     end
   end
 
-  # DELETE /appointments/1
+  # DELETE /professional/1/appointments/1
   def destroy
     @appointment.destroy
-    redirect_to professional_appointments_url, notice: 'Appointment was successfully destroyed.'
+    redirect_to professional_appointments_url(@professional), notice: 'Appointment was successfully destroyed.'
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_professional
-      @professional = Professional.find(params[:id])
+      @professional = Professional.find(params[:professional_id])
     end
 
     def set_appointment
