@@ -1,0 +1,6 @@
+<%= render "layouts/navbar.html.erb"%>
+
+<h1>Export schedule for the professional <%= @professional.to_s() %></h1>
+
+<%= render 'form', {url: professional_export_one_path(@professional)} %>
+<%= link_to 'Volver', professional_appointments_path(@professional) %>

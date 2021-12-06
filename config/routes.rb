@@ -10,9 +10,10 @@ Rails.application.routes.draw do
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
     delete "logout", to: "sessions#destroy"
-    get "export_all", to: "export#export_all"
 
   resources :professionals do
     resources :appointments
+    get "export_one", to: "export#export_professional"
   end
+  get "export_all", to: "export#export_all"
 end

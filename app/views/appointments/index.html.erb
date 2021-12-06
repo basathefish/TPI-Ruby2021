@@ -4,7 +4,8 @@
 <div>
   <h1>Appointments</h1>
   <% if not isConsuUser? %>
-  <%= link_to 'New Appointment', new_professional_appointment_path %>
+    <%= link_to 'New Appointment', new_professional_appointment_path %>
+    <%= link_to 'Export Schedule', professional_export_one_path %>
   <% end %>
   <br>
 

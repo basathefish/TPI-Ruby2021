@@ -12,4 +12,8 @@ class Professional < ApplicationRecord
             end
         end
     end
+
+    def to_s
+        "#{name} #{surname}"
+    end
 end

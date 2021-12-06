@@ -4,9 +4,9 @@
 
   <h1>Professionals</h1>
   <% if isAdminUser? %>
-  <%= link_to 'New Professional', new_professional_path %>
+    <%= link_to 'New Professional', new_professional_path %>
+    <%= link_to 'Export Schedule', export_all_path %>
   <% end %>
-  <%# <%= link_to 'Export', professional_export_path %> %>
 
   <div>
     <table>
