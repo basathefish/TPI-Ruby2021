@@ -26,5 +26,7 @@
   <%= @appointment.note %>
 </p>
 
+<% if not isConsuUser? %>
 <%= link_to 'Edit', edit_professional_appointment_path(@professional) %> |
+<% end %>
 <%= link_to 'Back', professional_appointments_path %>

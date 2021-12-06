@@ -3,15 +3,18 @@
   <p id="notice"><%= notice %></p>
 
   <h1>Professionals</h1>
-
+  <% if isAdminUser? %>
   <%= link_to 'New Professional', new_professional_path %>
+  <% end %>
+  <%# <%= link_to 'Export', professional_export_path %> %>
 
   <div>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Surname</th>
+          <th>| Name |</th>
+          <th>| Surname |</th>
+          <th></th>
           <th>Options</th>
           <th colspan="3"></th>
         </tr>
@@ -25,8 +28,10 @@
             <td>
             <td><%= link_to 'Show', professional %>
               <%= link_to 'Appointments', professional_appointments_path(professional) %>
+              <% if isAdminUser? %>
               <%= link_to 'Edit', edit_professional_path(professional) %>
               <%= link_to 'Destroy', professional, method: :delete, data: { confirm: "Are you sure you want to delete the professional #{professional.name} #{professional.surname}?" } %>
+              <% end %>
             </td>
           </tr>
         <% end %>

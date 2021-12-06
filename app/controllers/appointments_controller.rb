@@ -16,17 +16,20 @@ class AppointmentsController < ApplicationController
   # GET /professional/1/appointments/new
   def new
     redirect_if_not_logged
+    redirect_if_consul
     @appointment = @professional.appointments.new()
   end
 
   # GET /professional/1/appointments/1/edit
   def edit
     redirect_if_not_logged
+    redirect_if_consul
   end
 
   # POST /professional/1/appointments
   def create
     redirect_if_not_logged
+    redirect_if_consul
     @appointment = @professional.appointments.new(appointment_params)
     if @appointment.save
       redirect_to [@professional,@appointment], notice: 'Appointment was successfully created.'
@@ -38,6 +41,7 @@ class AppointmentsController < ApplicationController
   # PATCH/PUT /professional/1/appointments/1
   def update
     redirect_if_not_logged
+    redirect_if_consul
     if @appointment.update(appointment_params)
       redirect_to [@professional,@appointment], notice: 'Appointment was successfully updated.'
     else
@@ -48,6 +52,7 @@ class AppointmentsController < ApplicationController
   # DELETE /professional/1/appointments/1
   def destroy
     redirect_if_not_logged
+    redirect_if_consul
     @appointment.destroy
     redirect_to professional_appointments_url(@professional), notice: 'Appointment was successfully destroyed.'
   end
@@ -71,6 +76,12 @@ class AppointmentsController < ApplicationController
     def redirect_if_not_logged
       if session[:user_id].nil?
           redirect_to login_path
+      end
+    end
+
+    def redirect_if_consul
+      if current_user.rol.name == "consulta"
+        redirect_to root_path
       end
     end
 end

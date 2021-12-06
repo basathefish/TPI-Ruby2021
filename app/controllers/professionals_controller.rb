@@ -73,4 +73,10 @@ class ProfessionalsController < ApplicationController
           redirect_to login_path
       end
     end
+
+    def redirect_if_not_admin
+      if current_user.rol.name != "administracion"
+        redirect_to root_path
+      end
+    end
 end
