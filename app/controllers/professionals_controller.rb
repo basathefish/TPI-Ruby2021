@@ -41,6 +41,7 @@ class ProfessionalsController < ApplicationController
 
   # DELETE /professionals/1
   def destroy
+    p("----- ----- ----- ----- -----#{appointment_params["date(4i)"]} hours----- ----- ----- ----- -----")
     if @professional.destroy
       notice = "ERROR; The professional #{professional.name} #{professional.surname} has appointments"
     else
