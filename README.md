@@ -1,16 +1,29 @@
-# Polycon
+# Introducción
 
-Plantilla para comenzar con el Trabajo Práctico Integrador de la cursada 2021 de la materia
-Taller de Tecnologías de Producción de Software - Opción Ruby, de la Facultad de Informática
-de la Universidad Nacional de La Plata.
+Polycon es una herramienta desarrollada para gestionar la agenda de turnos de un policonsultorio, en el cual atienden profesionales de diferentes especialidades
+La herramienta fue implementada como proyecto para el taller de tecnologías de producción de software, Opción Ruby, de la Universidad Nacional De La Plata
 
-Polycon es una herramienta para gestionar los turnos y profesionales de un policonsultorio.
+## Instalación de dependencias
 
-Este proyecto es simplemente una plantilla para comenzar a implementar la herramienta e
-intenta proveer un punto de partida para el desarrollo, simplificando el _bootstrap_ del
-proyecto que puede ser una tarea que consume mucho tiempo y conlleva la toma de algunas
-decisiones que más adelante pueden tener efectos tanto positivos como negativos en el
-proyecto.
+Este proyecto utiliza Bundler para el manejo de dependencias.
+De modo que Bundler se encarga de instalar las dependencias ("gemas")
+que el proyecto tenga declaradas en el archivo `Gemfile` al ejecutar el siguiente comando:
+
+```bash
+$ bundle install
+```
+
+> Nota: Bundler debería estar disponible en tu instalación de Ruby, pero si por algún
+> motivo al intentar ejecutar el comando `bundle` obtenés un error indicando que no se
+> encuentra el comando, podés instalarlo mediante el siguiente comando:
+>
+> ```bash
+> $ gem install bundler
+> ```
+
+Una vez que la instalación de las dependencias sea exitosa (esto deberías hacerlo solamente
+cuando estés comenzando con la utilización del proyecto), podés comenzar a probar la
+herramienta.
 
 ## Uso de `polycon`
 
@@ -48,64 +61,150 @@ $ polycon [args]
 > Bundler. Para más información sobre la instalación de las dependencias, consultar la
 > siguiente sección ("Desarrollo").
 
-Documentar el uso para usuarios finales de la herramienta queda fuera del alcance de esta
-plantilla y **se deja como una tarea para que realices en tu entrega**, pisando el contenido
-de este archivo `README.md` o bien en uno nuevo. Ese archivo deberá contener cualquier
-documentación necesaria para entender el funcionamiento y uso de la herramienta que hayas
-implementado, junto con cualquier decisión de diseño del modelo de datos que consideres
-necesario documentar.
+# Decisiones de diseño Primera entrega
 
-## Desarrollo
+Para la implementación del proyecto, se utilizó un módulo “Models” el cual abarca la funcionalidad que el proyecto posee a través de sus clases “Professional” y “Appointment”, las cuales se pueden encontrar en la ruta `lib/polycon/models/` dentro de los archivos `profesional.rb` y `appointment.rb` respectivamente
 
-Esta sección provee algunos tips para el desarrollo de tu entrega a partir de esta
-plantilla.
+Además de esto, también se implementó un módulo “Helpers”, el cual brinda distintos métodos de apoyo a las clases ya mencionadas
+Este módulo puede encontrarse siguiendo la ruta `lib/polycon/Helpers.rb`
 
-### Instalación de dependencias
+Como información extra, los mensajes de respuesta del sistema, ya sea en caso de haber realizado exitosamente la acción indicada, o en caso de fallar en alguna operación, se realizan a través de la consola de comandos en lenguaje español
 
-Este proyecto utiliza Bundler para manejar sus dependencias. Si aún no sabés qué es eso
-o cómo usarlo, no te preocupes: ¡lo vamos a ver en breve en la materia! Mientras tanto,
-todo lo que necesitás saber es que Bundler se encarga de instalar las dependencias ("gemas")
-que tu proyecto tenga declaradas en su archivo `Gemfile` al ejecutar el siguiente comando:
+## Información sobre la clase Professional
 
-```bash
-$ bundle install
-```
+La implementación de esta clase posee los siguientes comportamientos de clase:
 
-> Nota: Bundler debería estar disponible en tu instalación de Ruby, pero si por algún
-> motivo al intentar ejecutar el comando `bundle` obtenés un error indicando que no se
-> encuentra el comando, podés instalarlo mediante el siguiente comando:
->
-> ```bash
-> $ gem install bundler
-> ```
+-`initialize`: inicializa una instancia de la clase Professional en base al nombre recibido por parámetro
 
-Una vez que la instalación de las dependencias sea exitosa (esto deberías hacerlo solamente
-cuando estés comenzando con la utilización del proyecto), podés comenzar a probar la
-herramienta y a desarrollar tu entrega.
+-`create_folder`: Crea la carpeta perteneciente al profesional que lo llame
 
-### Estructura de la plantilla
+-`exist?`: Verifica la existencia de un profesional ya registrado en el sistema
 
-El proyecto te provee una estructura inicial en la cual podés basarte para implementar tu
-entrega. Esta estructura no es necesariamente rígida, pero tené en cuenta que modificarla
-puede requerir algún trabajo adicional de tu parte.
+-`rename_professional`: Renombra la carpeta perteneciente al profesional enviado por parámetro por un nuevo nombre también recibido por parámetro
 
-* `lib/`: directorio que contiene todas las clases del modelo y de soporte para la ejecución
-  del programa `bin/polycon`.
-  * `lib/polycon.rb` es la declaración del namespace `Polycon`, y las directivas de carga
-    de clases o módulos que estén contenidos directamente por éste (`autoload`).
-  * `lib/polycon/` es el directorio que representa el namespace `Polycon`. Notá la convención
-    de que el uso de un módulo como namespace se refleja en la estructura de archivos del
-    proyecto como un directorio con el mismo nombre que el archivo `.rb` que define el módulo,
-    pero sin la terminación `.rb`. Dentro de este directorio se ubicarán los elementos del
-    proyecto que estén bajo el namespace `Polycon` - que, también por convención y para
-    facilitar la organización, deberían ser todos. Es en este directorio donde deberías
-    ubicar tus clases de modelo, módulos, clases de soporte, etc. Tené en cuenta que para
-    que todo funcione correctamente, seguramente debas agregar nuevas directivas de carga en la
-    definición del namespace `Polycon` (o dónde corresponda, según tus decisiones de diseño).
-  * `lib/polycon/commands.rb` y `lib/polycon/commands/*.rb` son las definiciones de comandos
-    de `dry-cli` que se utilizarán. En estos archivos es donde comenzarás a realizar la
-    implementación de las operaciones en sí, que en esta plantilla están provistas como
-    simples disparadores.
-  * `lib/polycon/version.rb` define la versión de la herramienta, utilizando [SemVer](https://semver.org/lang/es/).
-* `bin/`: directorio donde reside cualquier archivo ejecutable, siendo el más notorio `polycon`
-  que se utiliza como punto de entrada para el uso de la herramienta.
+-`list_professionals`: Lista los nombres de los profesionales cargados en el sistema, en caso de no haberlos, el sistema informará de esto
+
+-`delete_professional`: Elimina la carpeta perteneciente al profesional recibido por parámetro, en caso de un fallo o que el directorio no se encuentre vacío, el sistema informara de esto
+
+## Sobre el código de Professional en Commands
+
+Los comandos referentes a los profesionales poseen una verificación en caso de haber realizado exitosamente la acción indicada
+
+Además de estos, también se incluyeron validadores para los parámetros recibidos y un verificador en caso de que el profesional ingresado ya posea una carpeta a su nombre
+Para la validación de parámetros se utilizó el método `validate_field` del módulo `Helpers`, el cual informa al usuario en caso de haber enviado un parámetro invalido (strings vacíos o con los caracteres “\” o “/”)
+
+Sumado a esto, commands le da uso al método `polycon_exist?` para asegurar la existencia de la carpeta `.polycon`
+
+## información sobre la clase Appointment
+
+La implementación de esta clase posee los siguientes comportamientos de clase:
+
+-`initialize`: Inicializa una instancia de la clase Appointment en base a los datos recibidos por parámetro
+
+-`create_file`: Crea el archivo de texto plano .paf, almacenando la información que la instancia posea, esta información es guardada con un dato por línea en un array en el interior del archivo, de modo que esto facilite la futura lectura y modificación de dicha información
+
+-`exist?`: Verifica si el archivo indicado existe dentro del profesional recibido por parámetro
+
+-`show_file`: Busca y muestra la información almacenada en el archivo indicado en base a los parámetros recibidos. La información se muestra de forma “tipoDeDato: Dato” (ej. Nombre: Damian)
+
+-`cancel_appointment`: Busca y elimina el archivo de la cita indicada a través de los parámetros recibidos 
+En caso de no poder eliminarlo, el sistema informa de esto
+
+-`cancel_all_files`: Elimina todos los archivos almacenados dentro de la carpeta del profesional indicado por parámetro
+En caso de no poder eliminar los archivos, el sistema informa de esto
+
+-`rename_file`: Busca y cambia el nombre del archivo indicado por parámetro, por el nuevo nombre también indicado por el mismo medio
+Al igual que con el “cancel_appointment”, en caso de no poder renombrar el archivo, el sistema informará de esto
+
+-`list_appointments`: Imprime en pantalla los nombres de los archivos almacenados dentro del profesional indicado por parámetro
+Además de esto, también es posible indicarle una fecha, de la cual el sistema filtrara para mostrar en pantalla solo los turnos de la fecha indicada (la fecha debe estar en formato `AAAA-MM-DD`)
+
+-`edit_file`: El sistema busca el archivo indicado y sobrescribe la información indicada por parámetros, para esto, se recibe un hash y se convierte en hash el arreglo almacenado, de modo que en caso de que alguna clave coincida en ambos, el valor será actualizado por el indicado el hash recibido
+
+Como se mencionó anteriormente, los datos del archivo se almacenarán en el formato de array. Esto es debido a la facilidad que brinda a la hora de trabajar con estos datos, además de la ordenada presentación que brinda a la hora de abrir uno de estos archivos, los cuales almacenan la información de modo “un dato por línea”
+
+## Sobre el código de Appointments en Commands
+
+Los comandos referentes a las Citas, al igual que para los profesionales, poseen una verificación en caso de haber realizado exitosamente la acción indicada, además de validadores para cada campo requerido, para esto se utilizó el método `validate_field` dentro del módulo Helpers
+
+En caso de no enviar los parámetros solicitados por el comando, este se instanciará en un string vacío `“”`, de modo que el validador le indicara que dicho campo no es valido
+
+Además de este validador, todos los comandos cuentan con uno o más verificadores para las rutas deseadas, es decir que verifican si el profesional ingresado se encuentra registrado en el sistema, así como verificar si el archivo sobre el cual se desea actuar también se encuentra registrado en el sistema
+Por ejemplo en caso de querer leer un archivo “2021-07-18 11-11” dentro de una carpeta “Armando Esteban”, el validador mencionado verificará si dicha carpeta y archivo existen en el sistema
+
+Sumado a esto, commands le da uso al método `polycon_exist?` para asegurar la existencia de la carpeta `.polycon`
+
+
+## Acerca del módulo Helpers
+
+Este módulo implementa distintos métodos de apoyo, así como herramientas útiles para distintas secciones del proyecto
+dichos métodos son los siguientes:
+
+-`polycon_exist? `: Este método verifica si existe la carpeta `.polycon` dentro del directorio “home” del usuario. En caso de no existir, el sistema informará de esto y creará dicha carpeta, informando al usuario de esto mismo
+Este método es utilizado en el modulo Commands, como forma de la carpeta `.polycon` siempre exista en el sistema a la hora de ejecutar algún comando
+
+-`validate_field`: Este método es el encargado de validar que los parámetros ingresados son válidos, es decir, que no se trate de un string vacío “” ni un string que contenga los caracteres “/” ni “\”, esto para no generar ningún problema con los nombres de archivos ni carpetas, ya sea en un sistema de tipo Unix o uno de tipo Windows
+
+-`vali_date? `: Este método valida si una fecha ingresada es válida, para esto se espera que las fechas cumplan con el formato `AAAA-MM-DD HH-II`, para de esta forma poder validar los nombres de los archivos de la clase Appointment
+en caso de recibir un string cuyo tamaño es mayor a los 16 caracteres que el formato especifica, solo se utilizará los correspondientes al formato indicado
+
+-`path`: Este método retorna la ruta desde el directorio home hasta la carpeta `.polycon`. Esto se utiliza con el fin de acortar las referencias a dicha ruta dentro de ambas clases Professional y Appointment
+
+# Decisiones de diseño segunda entrega
+
+Esta sección está dedicada a explicar o definir funcionalidades y correcciones añadidas a la 1ra entrega con el fin de mejorar su funcionabilidad
+
+## correcciones realizadas
+
+-Al momento de ingresar fechas con hora ahora utiliza el formato "HH:MM" en lugar de "HH-MM" siendo "HH" la hora y "MM" los minutos
+
+-Se movieron las impresiones a pantalla a la sección de comandos para que el modelo no posea un rol en dicha tarea
+
+## nuevos comandos para appointments
+
+Como se solicitó, para esta entrega ahora es posible listar las citas cargadas en el sistema para un día en concreto o para una semana en concreta
+A dichos comandos se les solicita el ingreso de un día con el formato “AAAA-MM-DD” y con la opción de filtrar por un profesional en concreto
+Por lo que al poseer al profesional como optativo, opte por asignar dichas funcionalidades a la clase appointments
+
+## Modificaciones en la clase appointments
+
+Dentro de la clase Appointment dentro del modelo, se añadieron nuevos métodos para poder realizar la funcionalidad solicitada para la segunda entrega
+Dichos métodos se listarán a continuación
+
+- `show_data`: Este método devuelve la información relevante de un objeto Appointment, es decir, el nombre y el apellido de la persona que solicito la cita, así como el profesional que lo atenderá
+- `file_to_object`: Este método recibe el profesional y la fecha de una cita y devuelve la cita convertida en un objeto de la clase Appointment
+- `list_day`: Este método devuelve todas las citas asignadas a un día en específico recibido por parámetro
+Dichas citas se devuelven en forma de un arreglo de objetos de tipo Appointment
+Opcionalmente puede recibir un profesional para realizar un filtrado
+- `list_week`: Este método cumple una función similar a ` list_day`, devolviendo todos las citas dentro de una semana en especifica
+Dichas citas se devuelven en forma de un arreglo de objetos de tipo Appointment
+Opcionalmente puede recibir un profesional para realizar un filtrado
+
+### Nota a tener en cuenta
+En cuanto al método `list_week`, este toma a la fecha recibida como la 1er fecha de la semana, por lo que el archivo que generará, mostrará la fecha recibida como el 1er día de dicha semana
+
+## Modificaciones en Helpers
+Dentro del modulo Helpers se implementaron ciertas modificaciones para cumplir con lo solicitado para la segunda entrega
+-Se modifico el método `vali_date` para que este acepte fechas con formato `%Y-%m-%d %H:%M`, en lugar de `%Y-%m-%d %H-%M`
+-Se agrego un nuevo método `array_week`, el cual recibe una fecha de formato `%Y-%m-%d` y retorna un arreglo con esa fecha y las 6 siguientes
+
+## Gema Prawn y la clase Schedule
+
+Para realizar el archivo pdf, así como las tablas, se utiliza la gema “Prawn” y para obtener el formato de dicha tabla se utilizo la gema “Prawn-table”, la cual brinda soporte para la generación de tablas en pdf utilizando Prawn
+
+Opte por la presentación de dichas tablas en un pdf, ya que en contraste con HTMLs, los PDFs brindan una mayor durabilidad a mi parecer, pudiendo además el mover dicho archivo en caso de querer guardar una copia del documento o compartir el mismo
+
+Para el manejo de dicha gema, se utilizó una nueva clase `Schedule`, con ruta `lib/Polycon/Schedule.rb`, ya que de esta forma se desliga el pasaje de listado a pdf de la clase Appointment
+
+### La clase Schedule
+Como se mencionó, esta clase es la encargada de la creación de los pdf con las tablas de horarios, y para realizar esto, la clase cuenta con los siguientes métodos
+-`fileName`: Este método es el encargado de colocarle el nombre al archivo pdf
+-`créate_file`: Método base, el cual crea el archivo utilizando los datos que recibe del resto de métodos de la clase Schedule
+-`create_table`: Este método crea la tabla así como las tablas internas de esta, utilizando el método `info_grid` para rellenar las casillas que poseen información, dejándolas vacías en caso de no existir un turno en dicho día a dicha hora
+-`info_grid`: Devuelve la información de las citas correspondientes a cierta hora cierto día
+En caso de que haya mas de un profesional con una cita con tales características, la tabla presentará una subtabla en dicha casilla
+### Nota importante
+Los archivos .pdf se guardarán en una carpeta `.polycon_files` ubicada en la ruta home
+
+## Dependencias
+Como se menciono anteriormente, para realizar el archivo pdf, se utilizo la gema Prawn, por lo que es necesario realizar un `bundle install` para instalar las nuevas dependencias
