@@ -30,4 +30,8 @@ class Appointment < ApplicationRecord
       end
     end
   end
+
+  def schedule_format()
+    "Prof. #{professional} - #{surname} #{name}"
+  end
 end
