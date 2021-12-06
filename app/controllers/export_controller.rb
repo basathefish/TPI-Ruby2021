@@ -38,7 +38,7 @@ class ExportController < ApplicationController
             hash = AppointmentsUtils.date_to_hash(day, week)
             data = AppointmentsUtils.create_data(hash, appointments)
             
-            send_data ExportUtils.create_file(hash,day), filename:'schedule.pdf', type: "application/pdf", disposition: :attachment
+            send_data ExportUtils.create_file(hash,hash.keys), filename:'schedule.pdf', type: "application/pdf", disposition: :attachment
         else
             render 'all'
         end
