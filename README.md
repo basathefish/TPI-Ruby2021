@@ -3,6 +3,7 @@
 Polycon es una herramienta desarrollada para gestionar la agenda de turnos de un policonsultorio, en el cual atienden profesionales de diferentes especialidades
 La herramienta fue implementada como proyecto para el taller de tecnologías de producción de software, Opción Ruby, de la Universidad Nacional De La Plata
 
+
 ## Instalación de dependencias
 
 Este proyecto utiliza Bundler para el manejo de dependencias.
@@ -25,7 +26,67 @@ Una vez que la instalación de las dependencias sea exitosa (esto deberías hace
 cuando estés comenzando con la utilización del proyecto), podés comenzar a probar la
 herramienta.
 
-## Uso de `polycon`
+
+## Para utilizar la aplicación
+
+1, **Instalar Rails**
+    Esto puede realizarse con el siguiente comando:
+
+```bash
+ $ gem install rails
+```
+
+2, **Actualizar Dependencias**
+    Esto realiza mediante bundle install:
+    
+```bash
+ $ bundle install
+```
+
+3, **Ejecutar las Migraciones**
+    Esto con el fin de generar la estructura de la base de datos
+    y puede realizarse con el siguiente comando:
+    
+```bash
+ $ rails db:migrate
+```
+
+4, **Ejecutar el seed**
+    Este comando cargará unos datos presentados a la base de datos a modo de prueba. 
+    Esta prueba posee: 3 roles con sus funcionalidades dentro de la aplicación, con un usuario por cada uno de estos roles y 3 profesionales, entre los cuales se asignarán entre 5 y 10 turnos generados al azar con información genérica
+    comando para la seed:
+    
+```bash
+ $ rails db:seed
+ ```
+
+5, **Registro de usuarios por defecto**
+    Como se mencionó, la seed creara 3 usuarios por defecto, uno por cada rol funcional dentro de la aplicación
+    Las credenciales para acceder como estos usuarios son las siguientes
+>ADMINISTRACION: Usuario: admin, Contraseña: admin
+>ASISTENCIA: Usuario: asist, Contraseña: asist
+>CONSULTA: Usuario: consu, Contraseña: consu
+
+6, **Ejecutar la aplicación**
+    Para ejecutar la aplicación rails de manera local se debe usar:
+    
+```bash
+ $ rails server
+```
+
+7, **Puerto 3000**
+Por defecto, la aplicación estará corriendo en el servidor local http:127.0.0.1:3000
+
+8, **Permisos de los Usuarios**
+Los 3 roles definidos dentro de la aplicación son los siguientes
+>ADMINISTRACION: Puede crear, editar, ver y eliminar usuarios, profesionales y turnos, además de poder exportar grillas de turnos
+
+>ASISTENCIA: Puede gestionar los turnos, pero no puede interactuar con los usuarios ni puede editar o eliminar profesionales
+
+>CONSULTA: Puede ver los turnos y profesionales, pero no puede editar ni modificar ni crear nada
+
+
+## Uso de `polycon` (a partir de la tercer entrega, estos pasos quedaron obsoletos)
 
 Para ejecutar el comando principal de la herramienta se utiliza el script `bin/polycon`,
 el cual puede correrse de las siguientes manera:
@@ -61,6 +122,7 @@ $ polycon [args]
 > Bundler. Para más información sobre la instalación de las dependencias, consultar la
 > siguiente sección ("Desarrollo").
 
+
 # Decisiones de diseño Primera entrega
 
 Para la implementación del proyecto, se utilizó un módulo “Models” el cual abarca la funcionalidad que el proyecto posee a través de sus clases “Professional” y “Appointment”, las cuales se pueden encontrar en la ruta `lib/polycon/models/` dentro de los archivos `profesional.rb` y `appointment.rb` respectivamente
@@ -69,6 +131,7 @@ Además de esto, también se implementó un módulo “Helpers”, el cual brind
 Este módulo puede encontrarse siguiendo la ruta `lib/polycon/Helpers.rb`
 
 Como información extra, los mensajes de respuesta del sistema, ya sea en caso de haber realizado exitosamente la acción indicada, o en caso de fallar en alguna operación, se realizan a través de la consola de comandos en lenguaje español
+
 
 ## Información sobre la clase Professional
 
@@ -86,6 +149,7 @@ La implementación de esta clase posee los siguientes comportamientos de clase:
 
 -`delete_professional`: Elimina la carpeta perteneciente al profesional recibido por parámetro, en caso de un fallo o que el directorio no se encuentre vacío, el sistema informara de esto
 
+
 ## Sobre el código de Professional en Commands
 
 Los comandos referentes a los profesionales poseen una verificación en caso de haber realizado exitosamente la acción indicada
@@ -94,6 +158,7 @@ Además de estos, también se incluyeron validadores para los parámetros recibi
 Para la validación de parámetros se utilizó el método `validate_field` del módulo `Helpers`, el cual informa al usuario en caso de haber enviado un parámetro invalido (strings vacíos o con los caracteres “\” o “/”)
 
 Sumado a esto, commands le da uso al método `polycon_exist?` para asegurar la existencia de la carpeta `.polycon`
+
 
 ## información sobre la clase Appointment
 
@@ -122,6 +187,7 @@ Además de esto, también es posible indicarle una fecha, de la cual el sistema 
 -`edit_file`: El sistema busca el archivo indicado y sobrescribe la información indicada por parámetros, para esto, se recibe un hash y se convierte en hash el arreglo almacenado, de modo que en caso de que alguna clave coincida en ambos, el valor será actualizado por el indicado el hash recibido
 
 Como se mencionó anteriormente, los datos del archivo se almacenarán en el formato de array. Esto es debido a la facilidad que brinda a la hora de trabajar con estos datos, además de la ordenada presentación que brinda a la hora de abrir uno de estos archivos, los cuales almacenan la información de modo “un dato por línea”
+
 
 ## Sobre el código de Appointments en Commands
 
@@ -183,10 +249,12 @@ Opcionalmente puede recibir un profesional para realizar un filtrado
 ### Nota a tener en cuenta
 En cuanto al método `list_week`, este toma a la fecha recibida como la 1er fecha de la semana, por lo que el archivo que generará, mostrará la fecha recibida como el 1er día de dicha semana
 
+
 ## Modificaciones en Helpers
 Dentro del modulo Helpers se implementaron ciertas modificaciones para cumplir con lo solicitado para la segunda entrega
 -Se modifico el método `vali_date` para que este acepte fechas con formato `%Y-%m-%d %H:%M`, en lugar de `%Y-%m-%d %H-%M`
 -Se agrego un nuevo método `array_week`, el cual recibe una fecha de formato `%Y-%m-%d` y retorna un arreglo con esa fecha y las 6 siguientes
+
 
 ## Gema Prawn y la clase Schedule
 
@@ -206,5 +274,27 @@ En caso de que haya mas de un profesional con una cita con tales característica
 ### Nota importante
 Los archivos .pdf se guardarán en una carpeta `.polycon_files` ubicada en la ruta home
 
+
 ## Dependencias
 Como se menciono anteriormente, para realizar el archivo pdf, se utilizo la gema Prawn, por lo que es necesario realizar un `bundle install` para instalar las nuevas dependencias
+
+
+# Decisiones de diseño tercera entrega
+Se utilizo la gema bcrypt para la autenticación, ademas del manejo de permisos, sesiones y encriptado de contraseñas
+esto debido a que esta gema viene incorporada con rails de forma comentada dentro del gemfile
+
+En cuanto al manejo de permisos, se decidio por preguntar si poseen el rol permitido para dicha tarea en caso de ejecutar alguna accion que requiera de dicho rol (como una eliminacion o edicion)
+
+En cuanto a la validacion de turnos, estos solo serán validos si cumplen con las siguientes caracteristicas
+    *La hora del turno debe estar dentro del rango de 8;00hs a 20;00hs
+    *El campo de minutos debe ser "00" o "30"
+    *El turno a crear no debe de coincidir en tiempo y profesional con ningun otro turno que se haya registrado previamente
+
+Otras validaciones a tener en cuanta son las siguientes
+    *No pueden existir 2 usuarios con el mismo nombre de usuario
+    *Ningun campos no puede estar vacio a la hora de su creacion o modificacion, la unica excepcion es la nota de un turno
+
+Para la base de datos, se utilizo SQLite, principalmente debido a que el tamaño general del proyecto no es tan significante como para notar el problema de performance que suele apreciarse en SQLite, por lo que el proyecto no se vera afectado 
+
+En cuanto a la exportación de planillas de turnos, se reutilizaron las gemas mencionadas en la segunda entrega, siendo estas Prawn y Prawn-table
+El modulo Schedule que se ubicaba en la carpeta polycon ahora puede encontrarse en la ruta `app/services` con el nombre de `export_utils.rb`, el cual fue adecuado los requerimentos de esta entrega
