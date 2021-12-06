@@ -288,13 +288,13 @@ esto debido a que esta gema viene incorporada con rails de forma comentada dentr
 En cuanto al manejo de permisos, se decidio por preguntar si poseen el rol permitido para dicha tarea en caso de ejecutar alguna accion que requiera de dicho rol (como una eliminacion o edicion)
 
 En cuanto a la validacion de turnos, estos solo serán validos si cumplen con las siguientes caracteristicas
-    -La hora del turno debe estar dentro del rango de 8;00hs a 20;00hs
-    -El campo de minutos debe ser "00" o "30"
-    -El turno a crear no debe de coincidir en tiempo y profesional con ningun otro turno que se haya registrado previamente
+- La hora del turno debe estar dentro del rango de 8;00hs a 20;00hs
+- El campo de minutos debe ser "00" o "30"
+- El turno a crear no debe de coincidir en tiempo y profesional con ningun otro turno que se haya registrado previamente
 
 Otras validaciones a tener en cuanta son las siguientes
-    -No pueden existir 2 usuarios con el mismo nombre de usuario
-    -Ningun campos no puede estar vacio a la hora de su creacion o modificacion, la unica excepcion es la nota de un turno
+- No pueden existir 2 usuarios con el mismo nombre de usuario
+- Ningun campos no puede estar vacio a la hora de su creacion o modificacion, la unica excepcion es la nota de un turno
 
 Para la base de datos, se utilizo SQLite, principalmente debido a que el tamaño general del proyecto no es tan significante como para notar el problema de performance que suele apreciarse en SQLite, por lo que el proyecto no se vera afectado 
 
