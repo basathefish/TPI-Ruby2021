@@ -1,32 +1,37 @@
-<p id="notice"><%= notice %></p>
+<div>
+  <p id="notice"><%= notice %></p>
 
-<h1>Professionals</h1>
+  <h1>Professionals</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Surname</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <%= link_to 'New Professional', new_professional_path %>
 
-  <tbody>
-    <% @professionals.each do |professional| %>
-      <tr>
-        <td><%= professional.name %></td>
-        <td><%= professional.surname %></td>
-        <td>
-        <td><%= link_to 'Show', professional %></td>
-        <td><%= link_to 'Appointments', professional_appointments_path(professional) %></td>
-        <td><%= link_to 'Edit', edit_professional_path(professional) %></td>
-        <td><%= link_to 'Destroy', professional, method: :delete, data: { confirm: "Are you sure you want to delete the professional #{professional.name} #{professional.surname}?" } %></td>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Options</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
-<br>
+      <tbody>
+        <% @professionals.each do |professional| %>
+          <tr>
+            <td><%= professional.name %></td>
+            <td><%= professional.surname %></td>
+            <td>
+            <td><%= link_to 'Show', professional %>
+              <%= link_to 'Appointments', professional_appointments_path(professional) %>
+              <%= link_to 'Edit', edit_professional_path(professional) %>
+              <%= link_to 'Destroy', professional, method: :delete, data: { confirm: "Are you sure you want to delete the professional #{professional.name} #{professional.surname}?" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <div><br>
 
-<%= link_to 'New Professional', new_professional_path %>
+  <%= link_to 'Back', root_path %>
+</div>

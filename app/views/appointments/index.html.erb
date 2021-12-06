@@ -10,6 +10,7 @@
       <th>Full Name</th>
       <th>Phone</th>
       <th>Note</th>
+      <th>Options</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -22,10 +23,12 @@
         <td><%= full_name(appointment.name, appointment.surname) %></td>
         <td><%= appointment.phone %></td>
         <td><%= appointment.note %></td>
-        <td></td>
-        <td><%= link_to 'Show', [@professional,appointment] %></td>
-        <td><%= link_to 'Edit', edit_professional_appointment_path(@professional,appointment) %></td>
-        <td><%= link_to 'Destroy', [@professional,appointment], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+        <td>
+        <%= link_to 'Show', [@professional,appointment] %>
+        <%= link_to 'Edit', edit_professional_appointment_path(@professional,appointment) %>
+        <%= link_to 'Destroy', [@professional,appointment], method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
       </tr>
     <% end %>
   </tbody>

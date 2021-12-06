@@ -1,0 +1,13 @@
+<%# <%= render "layouts/navbar.html.erb"%> %>
+
+<main>
+    <div>
+    <h1>Polycon</h1>
+    <p>Welcome to Polycon, in this page you can manage the shift schedule of our polyconsultation</p>
+    <br>
+        <%# <% if isAdminUser? %> %>
+            <%= link_to 'Users', users_path %>
+        <%# <%end%> %>
+        <%= link_to 'Professionals and appointments', professionals_path %>
+    </div>
+</main>

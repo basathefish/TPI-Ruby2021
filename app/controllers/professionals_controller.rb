@@ -3,24 +3,29 @@ class ProfessionalsController < ApplicationController
 
   # GET /professionals
   def index
+    redirect_if_not_logged
     @professionals = Professional.all
   end
 
   # GET /professionals/1
   def show
+    redirect_if_not_logged
   end
 
   # GET /professionals/new
   def new
+    redirect_if_not_logged
     @professional = Professional.new
   end
 
   # GET /professionals/1/edit
   def edit
+    redirect_if_not_logged
   end
 
   # POST /professionals
   def create
+    redirect_if_not_logged
     @professional = Professional.new(professional_params)
 
     if @professional.save
@@ -32,6 +37,7 @@ class ProfessionalsController < ApplicationController
 
   # PATCH/PUT /professionals/1
   def update
+    redirect_if_not_logged
     if @professional.update(professional_params)
       redirect_to @professional, notice: 'Professional was successfully updated.'
     else
@@ -41,6 +47,7 @@ class ProfessionalsController < ApplicationController
 
   # DELETE /professionals/1
   def destroy
+    redirect_if_not_logged
     p("----- ----- ----- ----- -----#{appointment_params["date(4i)"]} hours----- ----- ----- ----- -----")
     if @professional.destroy
       notice = "ERROR; The professional #{professional.name} #{professional.surname} has appointments"
@@ -59,5 +66,11 @@ class ProfessionalsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def professional_params
       params.require(:professional).permit(:name, :surname)
+    end
+    
+    def redirect_if_not_logged
+      if session[:user_id].nil?
+          redirect_to login_path
+      end
     end
 end
