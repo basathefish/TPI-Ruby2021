@@ -9,9 +9,9 @@ con = Rol.create({name: "consulta"})
 asi = Rol.create({name: "asistencia"})
 adm = Rol.create({name: "administracion"})
 
-User.create({username: "consu", password: "consu",rol: con})
-User.create({username: "asist", password: "asist",rol: asi})
-User.create({username: "admin", password: "admin",rol: adm})
+User.create({username: "consu", password: "consu", rol: con})
+User.create({username: "asist", password: "asist", rol: asi})
+User.create({username: "admin", password: "admin", rol: adm})
 
 profs= Professional.create([{name: "Profe", surname: "Sional"},
     {name: "Nitales", surname: "jorge"},
