@@ -10,6 +10,7 @@ class AppointmentsController < ApplicationController
 
   # GET /professional/1/appointments/1
   def show
+    p("----- ----- ----- ----- ----- #{showData} ----- ----- ----- ----- -----")
     redirect_if_not_logged
   end
 
@@ -51,6 +52,7 @@ class AppointmentsController < ApplicationController
 
   # DELETE /professional/1/appointments/1
   def destroy
+    p("----- ----- ----- ----- ----- #{delete} ----- ----- ----- ----- -----")
     redirect_if_not_logged
     redirect_if_consul
     @appointment.destroy
