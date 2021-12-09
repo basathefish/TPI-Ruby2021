@@ -48,11 +48,10 @@ class ProfessionalsController < ApplicationController
   # DELETE /professionals/1
   def destroy
     redirect_if_not_logged
-    p("----- ----- ----- ----- -----#{appointment_params["date(4i)"]} hours----- ----- ----- ----- -----")
     if @professional.destroy
-      notice = "ERROR; The professional #{professional.name} #{professional.surname} has appointments"
+      notice = "The professional #{@professional.name} #{@professional.surname} was deleted successfully"
     else
-      notice = "The professional #{professional.name} #{professional.surname} was deleted successfully"
+      notice = "ERROR; The professional #{@professional.name} #{@professional.surname} has appointments"
     end
     redirect_to professionals_url, notice: notice
   end

@@ -48,7 +48,6 @@ class UsersController < ApplicationController
   # DELETE /users/1
   def destroy
     redirect_if_not_logged_or_admin
-    p("----- ----- ----- ----- ----- #{delete} ----- ----- ----- ----- -----")
     @user.destroy
     redirect_to users_url, notice: 'User was successfully destroyed.'
   end
